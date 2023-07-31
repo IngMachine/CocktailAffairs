@@ -4,7 +4,7 @@
   "description": "\"CocktailAffairs\" es un emocionante proyecto desarrollado en Node.js que busca revolucionar la experiencia de los servicios de bartender en eventos. Con una interfaz elegante y fácil de usar, esta plataforma permitirá a los usuarios explorar una amplia variedad de deliciosos cócteles y bebidas personalizadas para sus eventos especiales.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/app.ts<"
   },
   "repository": {
     "type": "git",
