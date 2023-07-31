@@ -1,0 +1,39 @@
+{
+  "name": "cocktailaffairs",
+  "version": "0.0.1",
+  "description": "\"CocktailAffairs\" es un emocionante proyecto desarrollado en Node.js que busca revolucionar la experiencia de los servicios de bartender en eventos. Con una interfaz elegante y fácil de usar, esta plataforma permitirá a los usuarios explorar una amplia variedad de deliciosos cócteles y bebidas personalizadas para sus eventos especiales.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IngMachine/CocktailAffairs.git"
+  },
+  "keywords": [
+    "conteles",
+    "eventos",
+    "bar",
+    "tender"
+  ],
+  "author": "Fredy Jesús Rivera De La Rosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IngMachine/CocktailAffairs/issues"
+  },
+  "homepage": "https://github.com/IngMachine/CocktailAffairs#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.4.1",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "@types/multer": "^1.4.7"
+  }
+}
