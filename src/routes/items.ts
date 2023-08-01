@@ -1,4 +1,4 @@
-import {Request, Response, Router} from "express";
+import {Router} from "express";
 import {createItem, deleteItem, getItemById, getItems, updateItem} from "../controllers/items";
 import {logMiddleware} from "../middleware/log";
 
