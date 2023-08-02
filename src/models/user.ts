@@ -27,5 +27,11 @@ const UserSchema = new Schema<User>(
     }
 )
 
+UserSchema.method('toJSON', function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+})
+
 const UserModel = model('user', UserSchema);
 export default UserModel;
