@@ -8,14 +8,20 @@ const checkJWT = (req: RequestExt, res: Response, next: NextFunction) => {
         const jwt = jwtByUser?.split(' ').pop();
         const isUser = verifyToken(`${jwt}`) as { id: string };
         if( !isUser ) {
-            res.status(401).send('NO_TIENES_UN_JWT_VALIDO');
+            res.status(401).json({
+                ok: false,
+                msg: 'JWT invalid'
+            });
         } else {
             req.user = isUser;
             next()
         }
     } catch (err) {
         console.log(err)
-        res.status(400).send("SESSION_NO_VALIDA")
+        res.status(400).json({
+            ok: false,
+            msg: 'Session No valida'
+        })
     }
 }
 
