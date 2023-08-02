@@ -10,7 +10,7 @@ import {
 } from "../services/cocktails";
 
 import {handleHttp} from "../utils/error.handle";
-import {RequestExtends} from "../interfaces/req-ext.interface";
+import {RequestExt} from "../interfaces/req-ext.interface";
 
 const getCocktailsController = async (req: Request, res: Response) => {
     try {
@@ -32,11 +32,11 @@ const getCocktailsById = async ({params}: Request, res: Response) => {
     }
 }
 
-const createCocktail = async ({body, user}: RequestExtends, res: Response) => {
+const createCocktail = async ({body, user}: RequestExt, res: Response) => {
     try {
         const newCocktail = {
             ...body,
-            user: user.id
+            user: user?.id
         }
         const responseCocktail = await insertCocktail(newCocktail);
         res.json(responseCocktail);
@@ -45,12 +45,12 @@ const createCocktail = async ({body, user}: RequestExtends, res: Response) => {
     }
 }
 
-const updateCocktailController = async ({ params, body, user }: RequestExtends, res: Response) => {
+const updateCocktailController = async ({ params, body, user }: RequestExt, res: Response) => {
     try {
         const { id } = params;
         const updateCocktailObject = {
             ...body,
-            user: user.id
+            user: user?.id
         }
         const responseCocktail = await updateCocktail(id, updateCocktailObject);
         res.json(responseCocktail);

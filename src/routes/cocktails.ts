@@ -14,7 +14,6 @@ import {fieldsValidators} from "../middleware/fields-validators";
 
 import {enumValidator} from "../utils/enum-validator";
 import {GlassType, Size} from "../interfaces/cocktails.interface";
-import {RequestExtends} from "../interfaces/req-ext.interface";
 
 const router =  Router();
 
