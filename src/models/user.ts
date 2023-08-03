@@ -1,5 +1,7 @@
 import { Schema,  model } from 'mongoose';
+
 import {User} from "../interfaces/user.interface";
+import RoleModel from "./role";
 
 const UserSchema = new Schema<User>(
     {
@@ -19,6 +21,16 @@ const UserSchema = new Schema<User>(
         description: {
             type: String,
             default: 'Description for default'
+        },
+        role: {
+            type: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Role', // Referencing the model name directly as a string
+                    required: true
+                }
+            ],
+            required: true
         }
     },
     {
@@ -32,6 +44,14 @@ UserSchema.method('toJSON', function() {
     object.id = _id;
     return object;
 })
+UserSchema.pre('save', async function (next) {
+    if (this.isNew && !this.role.length) {
+        const defaultRole = await RoleModel.findOne({ name: 'VISITOR' });
+        // @ts-ignore
+        this.role.push(defaultRole?._id);
+    }
+    next();
+});
 
 const UserModel = model('user', UserSchema);
 export default UserModel;
