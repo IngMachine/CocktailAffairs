@@ -7,7 +7,8 @@ import {
     updateCocktail,
     deleteCocktail,
     getImage,
-    insertImage
+    insertImage,
+    updateImageCocktail
 } from "../services/cocktails";
 
 import {handleHttp} from "../utils/error.handle";
@@ -83,10 +84,9 @@ const getImageController = async (req: Request, res: Response) => {
 
 const uploadImage = async ({body, files}: Request, res: Response) => {
     try {
-        // TODO: cloudnary subirlo y que me genere la url
         // @ts-ignore
         if(files?.image) {
-            const responseImage = await insertImage(files,body);
+            const responseImage = await insertImage( files , body );
             res.status(201).json(responseImage)
         } else {
             return res.status(400).json({
@@ -96,6 +96,23 @@ const uploadImage = async ({body, files}: Request, res: Response) => {
         }
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_IMAGE', err)
+    }
+}
+
+const updateImage = async ({body, files, params}: Request, res: Response) => {
+    try {
+        const { id } = params;
+        if(files?.image) {
+            const responseImage = await updateImageCocktail( files , body, id );
+            res.status(201).json(responseImage)
+        } else {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No hay una imagen agregada para actualizar'
+            })
+        }
+    } catch (err) {
+        handleHttp(res, 'ERROR_UPDATE_COCKTAIL', err)
     }
 }
 
@@ -109,5 +126,6 @@ export {
 
     // Image
     getImageController,
-    uploadImage
+    uploadImage,
+    updateImage
 }

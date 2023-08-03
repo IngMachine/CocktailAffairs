@@ -7,8 +7,10 @@ import {
     createCocktail,
     updateCocktailController,
     deleteCocktailController,
+
     getImageController,
-    uploadImage
+    uploadImage,
+    updateImage
 } from "../controllers/cocktails";
 
 import {checkJWT} from "../middleware/session";
@@ -35,6 +37,11 @@ router.get(
 router.post(
     '/upload-image',
     uploadImage
+)
+
+router.put(
+    '/upload-image/:id',
+    updateImage
 )
 
 /**
