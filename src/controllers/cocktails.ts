@@ -6,9 +6,11 @@ import {
     insertCocktail,
     updateCocktail,
     deleteCocktail,
+
     getImage,
     insertImage,
-    updateImageCocktail, deleteImageCocktail
+    updateImageCocktail,
+    deleteImageCocktail
 } from "../services/cocktails";
 
 import {handleHttp} from "../utils/error.handle";
@@ -19,8 +21,7 @@ const getCocktailsController = async (req: Request, res: Response) => {
         const responseCocktails = await getCocktails();
         res.json(responseCocktails)
     } catch ( err ) {
-        console.log(err)
-        handleHttp(res, 'ERROR_GET_ITEMS');
+        handleHttp(res, 'ERROR_GET_COCKTAILS');
     }
 }
 
@@ -30,7 +31,7 @@ const getCocktailsById = async ({params}: Request, res: Response) => {
         const response = await getCocktail(id);
         res.json(response)
     } catch ( err ) {
-        handleHttp(res, 'ERROR_GET_ITEM_BY_ID');
+        handleHttp(res, 'ERROR_GET_COCKTAIL_BY_ID');
     }
 }
 
@@ -112,7 +113,7 @@ const updateImage = async ({body, files, params}: Request, res: Response) => {
             })
         }
     } catch (err) {
-        handleHttp(res, 'ERROR_UPDATE_COCKTAIL', err)
+        handleHttp(res, 'ERROR_UPDATE_IMAGE_COCKTAIL', err)
     }
 }
 
@@ -122,7 +123,7 @@ const deleteImage = async ({params}: Request, res: Response) => {
         const responseCocktail = await deleteImageCocktail(id);
         res.json(responseCocktail);
     } catch (err) {
-        handleHttp(res, 'ERROR_DELETE_COCKTAIL', err)
+        handleHttp(res, 'ERROR_DELETE_IMAGE_COCKTAIL', err)
     }
 }
 
