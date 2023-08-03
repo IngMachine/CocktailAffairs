@@ -12,8 +12,10 @@ router.post(
     '/register',
     [
         check('name', 'The name is required').not().notEmpty(),
-        check('password', 'The password is required').not().notEmpty().isLength({min: 6}).withMessage('The password is minimum the 6 characters'),
-        check('email', 'The email is required').not().notEmpty().isEmail().withMessage('The email not valid format'),
+        check('password', 'The password is required').not().notEmpty()
+            .isLength({min: 6}).withMessage('The password is minimum the 6 characters'),
+        check('email', 'The email is required').not().notEmpty()
+            .isEmail().withMessage('The email not valid format'),
         fieldsValidators
     ],
     registerController
