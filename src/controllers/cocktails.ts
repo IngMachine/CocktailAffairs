@@ -80,15 +80,18 @@ const getImageController = async (req: Request, res: Response) => {
     }
 }
 
-const uploadImage = async ({body}: Request, res: Response) => {
-
+const uploadImage = async ({body, files}: Request, res: Response) => {
     try {
         // TODO: cloudnary subirlo y que me genere la url
-        const responseImage = await insertImage(body);
-        if( responseImage.ok ){
+        // @ts-ignore
+        if(files?.image) {
+            const responseImage = await insertImage(files,body);
             res.status(201).json(responseImage)
         } else {
-            res.status(400).json(responseImage);
+            return res.status(400).json({
+                ok: false,
+                msg: 'No ha una imagen agregada'
+            })
         }
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_IMAGE', err)
