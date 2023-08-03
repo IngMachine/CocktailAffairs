@@ -2,6 +2,8 @@ import {Cocktail} from "../interfaces/cocktails.interface";
 import CocktailModel from "../models/cocktail";
 import {ImageCocktail} from "../interfaces/imageCocktail.interface";
 import ImageCocktailModel from "../models/imageCocktail";
+import {uploadImageCloudinary} from "../config/cloudinary";
+import fs from 'fs-extra'
 
 const getCocktails = async() => {
     return await CocktailModel
@@ -32,7 +34,7 @@ const deleteCocktail = async (id: string) => {
     return await CocktailModel.findByIdAndDelete(id);
 }
 
-const insertImage = async ( imageCocktail: ImageCocktail ) => {
+const insertImage = async ( files: any, imageCocktail: ImageCocktail ) => {
     try {
         let image = await ImageCocktailModel.findOne({ name: imageCocktail.name });
         if ( image ) {
@@ -41,9 +43,14 @@ const insertImage = async ( imageCocktail: ImageCocktail ) => {
                 msg: 'A image exists with this name'
             }
         }
+        const result = await uploadImageCloudinary(files.image.tempFilePath);
+        await fs.unlink(files.image.tempFilePath)
         return {
             ok: true,
-            msg: await ImageCocktailModel.create(imageCocktail)
+            msg: await ImageCocktailModel.create({
+                ...imageCocktail,
+                ...result
+            })
         };
     } catch (err) {
         throw err;
