@@ -13,7 +13,10 @@ const getCocktails = async() => {
 }
 
 const getCocktail = async(id: string) => {
-    return await CocktailModel.findById(id)
+    return await CocktailModel
+                            .findById(id)
+                            .populate('user', '-_id -password -createdAt -updatedAt')
+                            .populate('imageCocktail', '-_id name url');
 }
 const insertCocktail = async ( cocktail: Cocktail) => {
     return await CocktailModel.create(cocktail);
