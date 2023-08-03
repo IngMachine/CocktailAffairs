@@ -1,11 +1,13 @@
-import {Request, Response, Router} from "express";
+import {Router} from "express";
 import {check} from "express-validator";
 
 import {
-    createCocktail, deleteCocktailController,
     getCocktailsById,
     getCocktailsController,
-    getImageController, updateCocktailController,
+    createCocktail,
+    updateCocktailController,
+    deleteCocktailController,
+    getImageController,
     uploadImage
 } from "../controllers/cocktails";
 
@@ -18,6 +20,22 @@ import {GlassType, Size} from "../interfaces/cocktails.interface";
 const router =  Router();
 
 router.use( checkJWT );
+
+/**
+ * http://localhost:3002/api/cocktail/image-cocktail [GET]
+ */
+router.get(
+    '/image-cocktail',
+    getImageController
+)
+
+/**
+ * http://localhost:3002/api/cocktail/upload-image [POST]
+ */
+router.post(
+    '/upload-image',
+    uploadImage
+)
 
 /**
  * http://localhost:3002/api/cocktail [GET]
@@ -79,18 +97,5 @@ router.delete(
     '/:id',
     deleteCocktailController
 );
-
-/**
- * http://localhost:3002/api/cocktail/image-cocktail [GET]
- */
-router.get('/image-cocktail', getImageController)
-
-/**
- * http://localhost:3002/api/cocktail/upload-image [POST]
- */
-router.post(
-    '/upload-image',
-    uploadImage
-)
 
 export { router }
