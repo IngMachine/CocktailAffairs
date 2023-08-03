@@ -4,18 +4,23 @@ import {encrypt, verified} from "../utils/bcrypt.handle";
 import {Auth} from "../interfaces/auth.interface";
 import {generateToken} from "../utils/jwt.handle";
 
-const createUser = async ({ email, password, name, description }: User) => {
+const createUser = async ({ email, password, name, description, role }: User) => {
     const checkIs = await UserModel.findOne( { email });
     const passwordHash = await encrypt(password);
     if( checkIs ) return "ALREADY_USER";
 
-    const user = await UserModel.create({email, password: passwordHash, name, description});
-    const token = await generateToken(user.id);
+    try {
+        const user = await UserModel.create({email, password: passwordHash, name, description, role});
+        const token = await generateToken(user.id);
 
-    return {
-        token,
-        user
-    };
+        return {
+            token,
+            user
+        };
+    } catch (err) {
+        throw err;
+    }
+
 }
 
 const loginUser = async( { email, password}: Auth) => {
