@@ -12,3 +12,7 @@ export const uploadImageCloudinary = async(filePath: string) => {
         folder: 'cocktails'
     });
 }
+
+export const deleteImageCloudinary = async(publicId: string) => {
+    return await cloudinary.uploader.destroy(publicId);
+}
