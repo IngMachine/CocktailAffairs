@@ -1,10 +1,15 @@
 import {Request, Response} from "express";
 import {createUser, loginUser} from "../services/auth";
+import {handleHttp} from "../utils/error.handle";
 
 
 const registerController = async ({body}: Request, res: Response) => {
-    const responseUser = await createUser(body);
-    res.json(responseUser);
+    try {
+        const responseUser = await createUser(body);
+        res.json(responseUser);
+    } catch (err) {
+        handleHttp(res, 'ERROR_CREATE_USER', err)
+    }
 }
 
 const loginController = async ({body}: Request, res: Response) => {
