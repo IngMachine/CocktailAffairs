@@ -1,9 +1,12 @@
-import {Cocktail} from "../interfaces/cocktails.interface";
-import CocktailModel from "../models/cocktail";
-import {ImageCocktail} from "../interfaces/imageCocktail.interface";
-import ImageCocktailModel from "../models/imageCocktail";
-import {deleteImageCloudinary, uploadImageCloudinary} from "../config/cloudinary";
 import fs from 'fs-extra'
+
+import {deleteImageCloudinary, uploadImageCloudinary} from "../config/cloudinary";
+
+import {Cocktail} from "../interfaces/cocktails.interface";
+import {ImageCocktail} from "../interfaces/imageCocktail.interface";
+
+import CocktailModel from "../models/cocktail";
+import ImageCocktailModel from "../models/imageCocktail";
 
 const getCocktails = async() => {
     return await CocktailModel

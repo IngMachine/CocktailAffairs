@@ -19,6 +19,7 @@ import {fieldsValidators} from "../middleware/fields-validators";
 
 import {enumValidator} from "../utils/enum-validator";
 import {GlassType, Size} from "../interfaces/cocktails.interface";
+import fileUpload from "express-fileupload";
 
 const router =  Router();
 
@@ -37,11 +38,19 @@ router.get(
  */
 router.post(
     '/upload-image',
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: './src/uploads'
+    }),
     uploadImage
 )
 
 router.put(
     '/upload-image/:id',
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: './src/uploads'
+    }),
     updateImage
 )
 
