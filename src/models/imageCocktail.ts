@@ -8,7 +8,11 @@ const ImageCocktailSchema = new Schema<ImageCocktail>(
             required: true,
             unique: true
         },
-        url: {
+        secure_url: {
+            type: String,
+            required: true
+        },
+        public_id: {
             type: String,
             required: true
         }

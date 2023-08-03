@@ -1,4 +1,5 @@
 export interface ImageCocktail {
     name: string;
-    url: string;
+    public_id: string;
+    secure_url: string;
 }
