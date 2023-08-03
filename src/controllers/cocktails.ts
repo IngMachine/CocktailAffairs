@@ -1,12 +1,13 @@
 import {Request, Response} from "express";
 
 import {
-    deleteCocktail,
     getCocktail,
     getCocktails,
-    getImage,
     insertCocktail,
-    insertImage, updateCocktail
+    updateCocktail,
+    deleteCocktail,
+    getImage,
+    insertImage
 } from "../services/cocktails";
 
 import {handleHttp} from "../utils/error.handle";
@@ -90,7 +91,7 @@ const uploadImage = async ({body, files}: Request, res: Response) => {
         } else {
             return res.status(400).json({
                 ok: false,
-                msg: 'No ha una imagen agregada'
+                msg: 'No hay una imagen agregada'
             })
         }
     } catch (err) {
