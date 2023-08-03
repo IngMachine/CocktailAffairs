@@ -37,6 +37,10 @@ const deleteCocktail = async (id: string) => {
     return await CocktailModel.findByIdAndDelete(id);
 }
 
+const getImage = async () => {
+    return await ImageCocktailModel.find({});
+}
+
 const insertImage = async ( files: any, imageCocktail: ImageCocktail ) => {
     try {
         let image = await ImageCocktailModel.findOne({ name: imageCocktail.name });
@@ -90,8 +94,20 @@ const updateImageCocktail = async (files: any, imageCocktail: ImageCocktail, id:
     }
 }
 
-const getImage = async () => {
-    return await ImageCocktailModel.find({});
+const deleteImageCocktail = async (id: string) => {
+    try {
+        let image = await ImageCocktailModel.findById(id);
+        if (!image) {
+            return {
+                ok: false,
+                msg: 'A image no exists with this id'
+            }
+        }
+        await deleteImageCloudinary(image.public_id);
+        return await ImageCocktailModel.findByIdAndDelete(id);
+    } catch (err) {
+        throw err;
+    }
 }
 
 export {
@@ -105,5 +121,6 @@ export {
     // Image
     getImage,
     insertImage,
-    updateImageCocktail
+    updateImageCocktail,
+    deleteImageCocktail
 }

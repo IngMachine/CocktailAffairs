@@ -8,7 +8,7 @@ import {
     deleteCocktail,
     getImage,
     insertImage,
-    updateImageCocktail
+    updateImageCocktail, deleteImageCocktail
 } from "../services/cocktails";
 
 import {handleHttp} from "../utils/error.handle";
@@ -116,6 +116,16 @@ const updateImage = async ({body, files, params}: Request, res: Response) => {
     }
 }
 
+const deleteImage = async ({params}: Request, res: Response) => {
+    try {
+        const {id} = params;
+        const responseCocktail = await deleteImageCocktail(id);
+        res.json(responseCocktail);
+    } catch (err) {
+        handleHttp(res, 'ERROR_DELETE_COCKTAIL', err)
+    }
+}
+
 export {
     // Cocktail
     getCocktailsController,
@@ -127,5 +137,6 @@ export {
     // Image
     getImageController,
     uploadImage,
-    updateImage
+    updateImage,
+    deleteImage
 }
