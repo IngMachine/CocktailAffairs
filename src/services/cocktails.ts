@@ -27,14 +27,13 @@ const insertCocktail = async ( cocktail: Cocktail) => {
 }
 
 const updateCocktail = async (id: string, cocktail: Cocktail) => {
-    const responseItem = await CocktailModel.findByIdAndUpdate(
+    return await CocktailModel.findByIdAndUpdate(
         id,
         cocktail,
         {
             new: true
         }
     );
-    return responseItem;
 }
 
 const deleteCocktail = async (id: string) => {
@@ -54,7 +53,11 @@ const insertImage = async ( files: any, imageCocktail: ImageCocktail ) => {
                 msg: 'A image exists with this name'
             }
         }
-        const result = await uploadImageCloudinary(files.image.tempFilePath, FolderImage.Cocktails);
+        const result = await uploadImageCloudinary(
+            files.image.tempFilePath,
+            FolderImage.Cocktails,
+            imageCocktail.name
+        );
         await fs.unlink(files.image.tempFilePath)
         return {
             ok: true,
@@ -77,8 +80,15 @@ const updateImageCocktail = async (files: any, imageCocktail: ImageCocktail, id:
                 msg: 'A image no exists with this id'
             }
         }
+
         await deleteImageCloudinary(image.public_id);
-        const result = await uploadImageCloudinary(files.image.tempFilePath, FolderImage.Cocktails );
+
+        const result = await uploadImageCloudinary(
+            files.image.tempFilePath,
+            FolderImage.Cocktails,
+            imageCocktail.name
+        );
+
         await fs.unlink(files.image.tempFilePath)
         return {
             ok: true,
