@@ -5,7 +5,7 @@ import {Role} from "../interfaces/role.interface";
 const getRolesService = async() => {
     return await RoleModel
         .find({})
-        .select('-_id -createdAt -updatedAt')
+        .select('-createdAt -updatedAt')
 }
 
 const insertRol = async (role: Role) => {
