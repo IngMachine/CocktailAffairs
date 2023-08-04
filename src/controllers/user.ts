@@ -7,7 +7,6 @@ import {
 } from "../services/user";
 
 import {handleHttp} from "../utils/error.handle";
-import {deleteCocktail} from "../services/cocktails";
 
 
 const getUsersController = async(req: Request, res: Response) => {
