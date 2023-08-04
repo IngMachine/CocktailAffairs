@@ -11,7 +11,7 @@ const createUser = async ({ email, password, name, description, role }: User) =>
 
     try {
         const user = await UserModel.create({email, password: passwordHash, name, description, role});
-        const token = await generateToken(user.id);
+        const token = await generateToken(user);
 
         return {
             token,
@@ -32,7 +32,7 @@ const loginUser = async( { email, password}: Auth) => {
 
     if( !isCorrect ) return "PASSWORD_INCORRECT";
 
-    const token = await generateToken(checkIs.id)
+    const token = await generateToken(checkIs)
 
     return {
         token,
