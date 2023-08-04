@@ -92,7 +92,7 @@ const uploadImage = async ({body, files}: Request, res: Response) => {
         } else {
             return res.status(400).json({
                 ok: false,
-                msg: 'No hay una imagen agregada'
+                msg: 'No image added'
             })
         }
     } catch (err) {
