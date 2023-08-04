@@ -2,7 +2,8 @@ import { Router} from "express";
 
 import {
     getRolesController,
-    createRoleController
+    createRoleController,
+    updateRoleController
 } from "../controllers/role";
 import {checkJWT} from "../middleware/session";
 
@@ -31,7 +32,7 @@ router.post(
  */
 router.put(
     '/:id',
-    (req, res) => res.json('put')
+    updateRoleController
 )
 
 /**

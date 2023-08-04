@@ -15,7 +15,25 @@ const insertRol = async (role: Role) => {
     });
 }
 
+const updateRol = async ( id: string, role: Role) => {
+    try {
+        return await RoleModel.findByIdAndUpdate(
+            id,
+            {
+                ...role,
+                name: role.name.toUpperCase()
+            },
+            {
+                new: true
+            }
+        );
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
     getRolesService,
-    insertRol
+    insertRol,
+    updateRol
 }
