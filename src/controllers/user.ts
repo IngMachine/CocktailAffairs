@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 
 import {
     getUsersService,
+    getUserService,
     updateUserService,
     deleteUserService
 } from "../services/user";
@@ -16,6 +17,16 @@ const getUsersController = async(req: Request, res: Response) => {
     } catch (err) {
         console.log(err)
         handleHttp(res, 'ERROR_GET_USERS', err);
+    }
+}
+
+const getUserController = async({params}: Request, res: Response) => {
+    try {
+        const { id } = params;
+        const responseUser = await getUserService(id);
+        return res.status(200).json(responseUser);
+    } catch (err) {
+        handleHttp(res, 'ERROR_GET_USER_BY_ID', err);
     }
 }
 
@@ -48,6 +59,7 @@ const deleteUserController = async({params}: Request, res: Response) => {
 
 export {
     getUsersController,
+    getUserController,
     updateUserController,
     deleteUserController
 }

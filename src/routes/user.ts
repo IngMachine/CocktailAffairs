@@ -2,6 +2,7 @@ import { Router} from "express";
 
 import {
     getUsersController,
+    getUserController,
     updateUserController,
     deleteUserController
 } from "../controllers/user";
@@ -19,6 +20,11 @@ router.get(
     '/',
     getUsersController
 );
+
+router.get(
+    '/:id',
+    getUserController
+)
 
 /**
  * http://localhost:3002/user/:id [PUT]

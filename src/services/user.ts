@@ -7,6 +7,11 @@ const getUsersService = async () => {
         .populate('role', '-_id name description')
 }
 
+const getUserService = async (id: string) => {
+    return await UserModel.findById(id)
+        .populate('role', '_id name');
+}
+
 const updateUserService = async (id: string, user: User) => {
     try {
         const userDB = await UserModel.findById(id);
@@ -35,6 +40,7 @@ const deleteUserService = async (id: string) => {
 
 export  {
     getUsersService,
+    getUserService,
     updateUserService,
     deleteUserService
 }
