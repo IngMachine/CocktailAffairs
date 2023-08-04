@@ -3,7 +3,8 @@ import { Router} from "express";
 import {
     getRolesController,
     createRoleController,
-    updateRoleController
+    updateRoleController,
+    deleteRoleController
 } from "../controllers/role";
 import {checkJWT} from "../middleware/session";
 
@@ -40,7 +41,7 @@ router.put(
  */
 router.delete(
     '/:id',
-    (req, res) => res.json('delete')
+    deleteRoleController
 )
 
 export { router }

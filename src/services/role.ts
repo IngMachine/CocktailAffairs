@@ -32,8 +32,13 @@ const updateRol = async ( id: string, role: Role) => {
     }
 }
 
+const deleteRoleService = async(id: string) => {
+    return await RoleModel.findByIdAndDelete(id);
+}
+
 export {
     getRolesService,
     insertRol,
-    updateRol
+    updateRol,
+    deleteRoleService
 }

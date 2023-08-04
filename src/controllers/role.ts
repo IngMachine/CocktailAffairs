@@ -3,10 +3,12 @@ import {Request, Response} from "express";
 import {
     getRolesService,
     insertRol,
-    updateRol
+    updateRol,
+    deleteRoleService
 } from "../services/role";
 
 import {handleHttp} from "../utils/error.handle";
+import {deleteUserService} from "../services/user";
 
 const getRolesController = async ({body}: Request, res: Response) => {
     try {
@@ -36,8 +38,26 @@ const updateRoleController = async ({ params, body }: Request, res: Response) =>
     }
 }
 
+const deleteRoleController = async ({params}: Request, res: Response) => {
+    try {
+        const {id} = params;
+        const responseRole = await deleteRoleService(id);
+        if (responseRole) {
+            return res.status(200).json(responseRole);
+        } else {
+            return res.status(404).json({
+                ok: false,
+                msg: "Role not found"
+            })
+        }
+    } catch (err) {
+        handleHttp(res, 'ERROR_DELETE_ROL', err)
+    }
+}
+
 export {
     getRolesController,
     createRoleController,
-    updateRoleController
+    updateRoleController,
+    deleteRoleController
 }
