@@ -32,8 +32,15 @@ const updateUserController = async({params, body}: Request, res: Response) => {
 const deleteUserController = async({params}: Request, res: Response) => {
     try {
         const {id} = params;
-        const responseCocktail = await deleteUserService(id);
-        res.json(responseCocktail);
+        const responseUser = await deleteUserService(id);
+        if (responseUser) {
+            return res.status(200).json(responseUser);
+        } else {
+            return res.status(404).json({
+                ok: false,
+                msg: "User not found"
+            })
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_DELETE_USER', err);
     }
