@@ -26,7 +26,7 @@ const UserSchema = new Schema<User>(
             type: [
                 {
                     type: Schema.Types.ObjectId,
-                    ref: 'Role', // Referencing the model name directly as a string
+                    ref: RoleModel, // Referencing the model name directly as a string
                     required: true
                 }
             ],
