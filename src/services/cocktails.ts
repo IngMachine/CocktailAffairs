@@ -7,6 +7,7 @@ import {ImageCocktail} from "../interfaces/imageCocktail.interface";
 
 import CocktailModel from "../models/cocktail";
 import ImageCocktailModel from "../models/imageCocktail";
+import {FolderImage} from "../constant/folderImage";
 
 const getCocktails = async() => {
     return await CocktailModel
@@ -53,7 +54,7 @@ const insertImage = async ( files: any, imageCocktail: ImageCocktail ) => {
                 msg: 'A image exists with this name'
             }
         }
-        const result = await uploadImageCloudinary(files.image.tempFilePath);
+        const result = await uploadImageCloudinary(files.image.tempFilePath, FolderImage.Cocktails);
         await fs.unlink(files.image.tempFilePath)
         return {
             ok: true,
@@ -77,7 +78,7 @@ const updateImageCocktail = async (files: any, imageCocktail: ImageCocktail, id:
             }
         }
         await deleteImageCloudinary(image.public_id);
-        const result = await uploadImageCloudinary(files.image.tempFilePath);
+        const result = await uploadImageCloudinary(files.image.tempFilePath, FolderImage.Cocktails );
         await fs.unlink(files.image.tempFilePath)
         return {
             ok: true,

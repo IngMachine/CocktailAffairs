@@ -7,9 +7,10 @@ cloudinary.config({
     secure: true
 });
 
-export const uploadImageCloudinary = async(filePath: string) => {
+export const uploadImageCloudinary = async(filePath: string, folder: string, public_id?: string) => {
     return await cloudinary.uploader.upload(filePath, {
-        folder: 'cocktails'
+        folder,
+        public_id
     });
 }
 

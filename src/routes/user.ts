@@ -21,6 +21,9 @@ router.get(
     getUsersController
 );
 
+/**
+ * http://localhost:3002/user/:id [GET]
+ */
 router.get(
     '/:id',
     getUserController
