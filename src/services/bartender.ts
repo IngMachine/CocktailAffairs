@@ -12,6 +12,11 @@ const getBartendersService = async () => {
         .populate('user', 'name email description')
 }
 
+const getBartenderByIdUserService = async (idUser: string) => {
+    return await BartenderModel.findOne({ user: idUser })
+        .select('_id');
+}
+
 const createBartenderService = async ( bartender: Bartender, files: any ) => {
     try {
         const bartenderDB = await BartenderModel.findOne({ user: bartender.user });
@@ -110,6 +115,7 @@ const updateBartenderService = async (bartender: Bartender, files: any, id: stri
 
 export {
     getBartendersService,
+    getBartenderByIdUserService,
     createBartenderService,
     updateBartenderService
 }

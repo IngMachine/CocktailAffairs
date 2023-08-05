@@ -3,6 +3,7 @@ import {RequestExt} from "../interfaces/req-ext.interface";
 
 import {
     getBartendersService,
+    getBartenderByIdUserService,
     createBartenderService,
     updateBartenderService
 } from "../services/bartender";
@@ -42,7 +43,7 @@ const createBartenderByIdUserController = async ({ params, body, files, user }: 
         } else {
             res.status(409).json({
                 ok: false,
-                msg: 'You cannot update this user'
+                msg: 'You cannot create this user'
             })
         }
 
@@ -52,11 +53,12 @@ const createBartenderByIdUserController = async ({ params, body, files, user }: 
     }
 }
 
-const updateBartenderByIdUserController = async ({ params, body, files, user }: RequestExt, res: Response)  => {
+const updateBartenderByIdUserController = async ({ body, files, user }: RequestExt, res: Response)  => {
     try {
-        const { id } = params;
+        const responseIDBartender = await getBartenderByIdUserService(user!.id as string);
+        const idBartender = responseIDBartender!._id.toString();
         if ( body.user === user?.id ) {
-            const responseBartender = await updateBartenderService( body, files, id );
+            const responseBartender = await updateBartenderService( body, files, idBartender );
             return res.status(200).json(responseBartender);
         } else {
             res.status(409).json({

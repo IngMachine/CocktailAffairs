@@ -41,7 +41,7 @@ router.post(
 )
 
 router.put(
-    '/:id',
+    '/',
     [
         fileUpload({
             useTempFiles: true,
@@ -66,5 +66,15 @@ router.post(
     ],
     createBartenderController
 )
+
+router.put('/:id',
+    [
+        fileUpload({
+            useTempFiles: true,
+            tempFileDir: './src/uploads'
+        })
+    ],
+    updateBartenderByIdUserController
+);
 
 export { router }
