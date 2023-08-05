@@ -4,7 +4,8 @@ import {
     createBartenderByIdUserController,
     createBartenderController,
     getBartendersController,
-    updateBartenderByIdUserController
+    updateBartenderByIdUserController,
+    updateBartenderByIdController
 } from "../controllers/bartender";
 
 import {checkJWT, checkRolPermit} from "../middleware/session";
@@ -74,7 +75,7 @@ router.put('/:id',
             tempFileDir: './src/uploads'
         })
     ],
-    updateBartenderByIdUserController
+    updateBartenderByIdController
 );
 
 export { router }

@@ -71,9 +71,21 @@ const updateBartenderByIdUserController = async ({ body, files, user }: RequestE
     }
 }
 
+const updateBartenderByIdController = async( {body, files, params }: Request, res: Response) => {
+    try {
+        const { id } = params;
+        const responseBartender = await updateBartenderService(body, files, id);
+        return res.status(201).json(responseBartender);
+    } catch (err) {
+        console.log(err)
+        handleHttp(res, 'ERROR_CREATED_BARTENDER', err);
+    }
+}
+
 export {
     getBartendersController,
     createBartenderController,
     createBartenderByIdUserController,
-    updateBartenderByIdUserController
+    updateBartenderByIdUserController,
+    updateBartenderByIdController
 }
