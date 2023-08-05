@@ -56,9 +56,9 @@ const createBartenderByIdUserController = async ({ params, body, files, user }: 
 const updateBartenderByIdUserController = async ({ body, files, user }: RequestExt, res: Response)  => {
     try {
         const responseIDBartender = await getBartenderByIdUserService(user!.id as string);
-        const idBartender = responseIDBartender!._id.toString();
+        const idBartender = responseIDBartender?._id.toString();
         if ( body.user === user?.id ) {
-            const responseBartender = await updateBartenderService( body, files, idBartender );
+            const responseBartender = await updateBartenderService( body, files, idBartender! );
             return res.status(200).json(responseBartender);
         } else {
             res.status(409).json({
@@ -67,7 +67,6 @@ const updateBartenderByIdUserController = async ({ body, files, user }: RequestE
             })
         }
     } catch (err) {
-        console.log(err)
         handleHttp(res, 'ERROR_UPDATE_ERROR',err);
     }
 }
