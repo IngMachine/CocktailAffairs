@@ -8,6 +8,8 @@ import {
 } from "../services/booking";
 
 import {handleHttp} from "../utils/error.handle";
+import {RequestExt} from "../interfaces/req-ext.interface";
+import {Booking} from "../interfaces/booking.interface";
 
 
 const getBookingsController = async (req: Request, res: Response) => {
@@ -19,9 +21,13 @@ const getBookingsController = async (req: Request, res: Response) => {
     }
 }
 
-const createBookingController = async ({body}: Request, res: Response) => {
+const createBookingController = async ({ body, user }: RequestExt, res: Response) => {
     try {
-        const responseBooking = await createBookingService(body);
+        const booking: Booking = {
+            ...body,
+            user: user?.id
+        }
+        const responseBooking = await createBookingService(booking);
         res.status(200).json(responseBooking);
     } catch (err) {
         console.log(err)
@@ -29,10 +35,14 @@ const createBookingController = async ({body}: Request, res: Response) => {
     }
 }
 
-const updateBookingController = async  ({ params, body }: Request, res: Response) => {
+const updateBookingController = async  ({ params, body, user }: RequestExt, res: Response) => {
     try {
         const { id } = params;
-        const responseBooking = await updateBookingService(id, body);
+        const booking: Booking = {
+            ...body,
+            user: user?.id
+        }
+        const responseBooking = await updateBookingService(id, booking);
         res.status(200).json(responseBooking);
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_BOOKING', err);
