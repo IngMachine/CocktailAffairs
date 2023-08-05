@@ -5,7 +5,9 @@ import {fieldsValidators} from "../middleware/fields-validators";
 
 import {
     getBookingsController,
+    createBookingController,
 } from "../controllers/booking";
+
 import {checkJWT, checkRolPermit} from "../middleware/session";
 import {RoleEnum} from "../constant/role";
 
@@ -17,11 +19,19 @@ router.use([
 ])
 
 /**
- * http://localhost:3002/booking/ [Get]
+ * http://localhost:3002/booking/ [GET]
  */
 router.get(
     '/',
     getBookingsController
+);
+
+/**
+ * http://localhost:3002/booking/ [POST]
+ */
+router.post(
+    '/',
+    createBookingController
 );
 
 export { router }
