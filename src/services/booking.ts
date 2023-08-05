@@ -33,8 +33,19 @@ const updateBookingService = async(id: string, booking: Booking) => {
     }
 }
 
+const deleteBookingService = async(id: string) => {
+    try {
+        return await BookingModel.findByIdAndDelete(
+            id
+        );
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
     getBookingsService,
     createBookingService,
-    updateBookingService
+    updateBookingService,
+    deleteBookingService
 }

@@ -6,7 +6,8 @@ import {fieldsValidators} from "../middleware/fields-validators";
 import {
     getBookingsController,
     createBookingController,
-    updateBookingController
+    updateBookingController,
+    deleteBookingController
 } from "../controllers/booking";
 
 import {checkJWT, checkRolPermit} from "../middleware/session";
@@ -41,6 +42,14 @@ router.post(
 router.put(
     '/:id',
     updateBookingController
+);
+
+/**
+ * http://localhost:3002/booking/:delete [PUT]
+ */
+router.delete(
+    '/:id',
+    deleteBookingController
 );
 
 

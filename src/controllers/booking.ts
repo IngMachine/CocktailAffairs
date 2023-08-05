@@ -3,7 +3,8 @@ import {Request, Response} from "express";
 import {
     getBookingsService,
     createBookingService,
-    updateBookingService
+    updateBookingService,
+    deleteBookingService
 } from "../services/booking";
 
 import {handleHttp} from "../utils/error.handle";
@@ -38,8 +39,26 @@ const updateBookingController = async  ({ params, body }: Request, res: Response
     }
 }
 
+const deleteBookingController = async ({ params, body }: Request, res:Response) => {
+    try {
+        const { id } = params;
+        const responseBooking = await deleteBookingService(id);
+        if (responseBooking) {
+            return res.status(200).json(responseBooking);
+        } else {
+            return res.status(404).json({
+                ok: false,
+                msg: "Booking not found"
+            })
+        }
+    } catch (err) {
+        handleHttp(res, 'ERROR_UPDATE_BOOKING', err);
+    }
+}
+
 export {
     getBookingsController,
     createBookingController,
-    updateBookingController
+    updateBookingController,
+    deleteBookingController
 }
