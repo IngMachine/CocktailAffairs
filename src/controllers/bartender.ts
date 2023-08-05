@@ -1,4 +1,5 @@
 import {Request, Response} from "express";
+import {RequestExt} from "../interfaces/req-ext.interface";
 
 import {
     getBartendersService,
@@ -6,6 +7,7 @@ import {
 } from "../services/bartender";
 
 import {handleHttp} from "../utils/error.handle";
+import {Bartender} from "../interfaces/bartender.interface";
 
 const getBartendersController = async (req: Request, res: Response) => {
     try {
@@ -18,8 +20,31 @@ const getBartendersController = async (req: Request, res: Response) => {
 
 const createBartenderController = async ({ body, files  }: Request, res: Response) => {
     try {
-        const responseBartender = await createBartenderService(files, body);
+        const responseBartender = await createBartenderService(body, files);
         return res.status(201).json(responseBartender);
+    } catch (err) {
+        console.log(err)
+        handleHttp(res, 'ERROR_CREATED_BARTENDER', err);
+    }
+}
+
+const createBartenderByIdUserController = async ({ params, body, files, user }: RequestExt, res: Response) => {
+    try {
+        const { idUser} = params;
+        const bartender: Bartender = {
+            ...body,
+            user: idUser
+        }
+        if ( idUser === user?.id ) {
+            const responseBartender = await createBartenderService( bartender, files );
+            return res.status(201).json(responseBartender);
+        } else {
+            res.status(409).json({
+                ok: false,
+                msg: 'You cannot update this user'
+            })
+        }
+
     } catch (err) {
         console.log(err)
         handleHttp(res, 'ERROR_CREATED_BARTENDER', err);
@@ -28,5 +53,6 @@ const createBartenderController = async ({ body, files  }: Request, res: Respons
 
 export {
     getBartendersController,
-    createBartenderController
+    createBartenderController,
+    createBartenderByIdUserController
 }
