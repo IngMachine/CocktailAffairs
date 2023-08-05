@@ -3,7 +3,8 @@ import {Router} from "express";
 import {
     createBartenderByIdUserController,
     createBartenderController,
-    getBartendersController
+    getBartendersController,
+    updateBartenderByIdUserController
 } from "../controllers/bartender";
 
 import {checkJWT, checkRolPermit} from "../middleware/session";
@@ -37,6 +38,17 @@ router.post(
         })
     ],
     createBartenderByIdUserController
+)
+
+router.put(
+    '/:id',
+    [
+        fileUpload({
+            useTempFiles: true,
+            tempFileDir: './src/uploads'
+        })
+    ],
+    updateBartenderByIdUserController
 )
 
 router.use( checkRolPermit( [RoleEnum.Admin] ));
