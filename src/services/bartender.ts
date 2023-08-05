@@ -12,7 +12,7 @@ const getBartendersService = async () => {
         .populate('user', 'name email description')
 }
 
-const createBartenderService = async (files: any, bartender: Bartender) => {
+const createBartenderService = async ( bartender: Bartender, files: any ) => {
     try {
         const bartenderDB = await BartenderModel.findOne({ user: bartender.user });
         const user = await getUserService(bartender.user as string);
