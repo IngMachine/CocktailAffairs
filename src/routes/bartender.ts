@@ -28,7 +28,7 @@ router.get(
  * http://localhost:3002/bartender/:idUser [POST]
  */
 
-router.use( checkRolPermit( [ RoleEnum.Admin, RoleEnum.Bartender ] ));
+router.use( checkRolPermit( [ RoleEnum.Admin, RoleEnum.Bartender ] ) );
 
 router.post(
     '/:idUser',
