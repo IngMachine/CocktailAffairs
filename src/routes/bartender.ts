@@ -1,8 +1,9 @@
 import {Router} from "express";
 
 import {
-    getBartendersController,
-    createBartenderController
+    createBartenderByIdUserController,
+    createBartenderController,
+    getBartendersController
 } from "../controllers/bartender";
 
 import {checkJWT, checkRolPermit} from "../middleware/session";
@@ -13,7 +14,6 @@ const router =  Router();
 
 router.use(checkJWT);
 
-
 /**
  * http://localhost:3002/bartender/ [GET]
  */
@@ -22,15 +22,24 @@ router.get(
     getBartendersController
 );
 
-router.use(
+/**
+ * http://localhost:3002/bartender/:idUser [POST]
+ */
+
+router.use( checkRolPermit( [ RoleEnum.Admin, RoleEnum.Bartender ] ));
+
+router.post(
+    '/:idUser',
     [
-        checkRolPermit(
-            [
-                RoleEnum.Admin
-            ]
-        )
-    ]
-);
+        fileUpload({
+            useTempFiles: true,
+            tempFileDir: './src/uploads'
+        })
+    ],
+    createBartenderByIdUserController
+)
+
+router.use( checkRolPermit( [RoleEnum.Admin] ));
 
 /**
  * http://localhost:3002/bartender/ [POST]
