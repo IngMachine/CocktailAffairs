@@ -4,7 +4,7 @@ import {check} from "express-validator";
 import {fieldsValidators} from "../middleware/fields-validators";
 
 import {
-    getBookingController,
+    getBookingsController,
 } from "../controllers/booking";
 import {checkJWT, checkRolPermit} from "../middleware/session";
 import {RoleEnum} from "../constant/role";
@@ -21,7 +21,7 @@ router.use([
  */
 router.get(
     '/',
-    getBookingController
+    getBookingsController
 );
 
 export { router }
