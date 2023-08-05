@@ -1,6 +1,6 @@
 import BartenderModel from "../models/bartender";
 import {Bartender} from "../interfaces/bartender.interface";
-import {uploadImageCloudinary} from "../config/cloudinary";
+import {deleteImageCloudinary, uploadImageCloudinary} from "../config/cloudinary";
 import {FolderImage, LinkImage} from "../constant/folderImage";
 import fs from "fs-extra";
 import {getUserService, updateRoleUserByIdService} from "./user";
@@ -34,14 +34,11 @@ const createBartenderService = async ( bartender: Bartender, files: any ) => {
                 }
             }
 
-
             const newBartender = {
                 ...bartender,
                 ...result,
                 imageUrl: result.secure_url
             };
-
-            console.log(newBartender)
 
             return await BartenderModel.create(newBartender);
 
@@ -56,7 +53,63 @@ const createBartenderService = async ( bartender: Bartender, files: any ) => {
     }
 }
 
+const updateBartenderService = async (bartender: Bartender, files: any, id: string) => {
+
+    try {
+        let result: any;
+        const user = await getUserService(bartender.user as string);
+        const bartenderDB = await BartenderModel.findById(id);
+
+        if (user) {
+            if( files?.image ) {
+                result = await uploadImageCloudinary(
+                    files.image.tempFilePath,
+                    FolderImage.Bartenders,
+                    `${user!.name}-${bartender.age}`
+                );
+                await deleteImageCloudinary(bartenderDB!.public_id)
+                await fs.unlink(files.image.tempFilePath)
+            } else if ( bartender.imageUrl ) {
+                result = {
+                    secure_url: bartender.imageUrl,
+                    public_id: bartender.public_id
+                }
+            } else {
+                result = {
+                    secure_url: LinkImage.NoPhoto,
+                    public_id: 'no_image'
+                }
+            }
+
+            const newBartender: Bartender = {
+                ...bartenderDB!.toObject(),
+                ...bartender,
+                ...result,
+                imageUrl: result.secure_url
+            };
+
+            return await BartenderModel.findByIdAndUpdate(
+                id,
+                newBartender,
+                {
+                    new: true,
+                }
+            )
+        } else {
+            return {
+                ok: false,
+                msg: 'The user not found'
+            }
+        }
+
+    } catch (err) {
+        throw err;
+    }
+
+}
+
 export {
     getBartendersService,
-    createBartenderService
+    createBartenderService,
+    updateBartenderService
 }
