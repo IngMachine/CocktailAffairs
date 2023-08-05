@@ -6,6 +6,7 @@ import {fieldsValidators} from "../middleware/fields-validators";
 import {
     getBookingsController,
     createBookingController,
+    updateBookingController
 } from "../controllers/booking";
 
 import {checkJWT, checkRolPermit} from "../middleware/session";
@@ -33,5 +34,15 @@ router.post(
     '/',
     createBookingController
 );
+
+/**
+ * http://localhost:3002/booking/:id [PUT]
+ */
+router.put(
+    '/:id',
+    updateBookingController
+);
+
+
 
 export { router }

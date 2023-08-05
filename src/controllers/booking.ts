@@ -2,7 +2,8 @@ import {Request, Response} from "express";
 
 import {
     getBookingsService,
-    createBookingService
+    createBookingService,
+    updateBookingService
 } from "../services/booking";
 
 import {handleHttp} from "../utils/error.handle";
@@ -27,7 +28,18 @@ const createBookingController = async ({body}: Request, res: Response) => {
     }
 }
 
+const updateBookingController = async  ({ params, body }: Request, res: Response) => {
+    try {
+        const { id } = params;
+        const responseBooking = await updateBookingService(id, body);
+        res.status(200).json(responseBooking);
+    } catch (err) {
+        handleHttp(res, 'ERROR_UPDATE_BOOKING', err);
+    }
+}
+
 export {
     getBookingsController,
-    createBookingController
+    createBookingController,
+    updateBookingController
 }

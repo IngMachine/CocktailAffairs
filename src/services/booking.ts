@@ -19,7 +19,22 @@ const createBookingService = async(booking: Booking) => {
     }
 }
 
+const updateBookingService = async(id: string, booking: Booking) => {
+    try {
+        return await BookingModel.findByIdAndUpdate(
+            id,
+            booking,
+            {
+                new: true
+            }
+        );
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
     getBookingsService,
-    createBookingService
+    createBookingService,
+    updateBookingService
 }
