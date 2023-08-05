@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import {Booking} from "../interfaces/booking.interface";
+
 import User from "./user";
 import Bartender from "./bartender";
 
@@ -11,17 +12,17 @@ const BookingSchema = new Schema<Booking>(
             ref: User,
             required: true
         },
-        bartender: {
-            type: Schema.Types.ObjectId,
-            ref: Bartender,
-            required: true
-        },
-        eventDate: [
+        bartender:[
             {
-                type: Date,
-                required: true,
+                type: Schema.Types.ObjectId,
+                ref: Bartender,
+                required: true
             }
         ],
+        eventDate: {
+            type: Date,
+            required: true,
+        },
         eventTime: {
             type: Date,
             required: true
