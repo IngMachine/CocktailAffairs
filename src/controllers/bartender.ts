@@ -3,7 +3,8 @@ import {RequestExt} from "../interfaces/req-ext.interface";
 
 import {
     getBartendersService,
-    createBartenderService
+    createBartenderService,
+    updateBartenderService
 } from "../services/bartender";
 
 import {handleHttp} from "../utils/error.handle";
@@ -51,8 +52,27 @@ const createBartenderByIdUserController = async ({ params, body, files, user }: 
     }
 }
 
+const updateBartenderByIdUserController = async ({ params, body, files, user }: RequestExt, res: Response)  => {
+    try {
+        const { id } = params;
+        if ( body.user === user?.id ) {
+            const responseBartender = await updateBartenderService( body, files, id );
+            return res.status(200).json(responseBartender);
+        } else {
+            res.status(409).json({
+                ok: false,
+                msg: 'You cannot update this user'
+            })
+        }
+    } catch (err) {
+        console.log(err)
+        handleHttp(res, 'ERROR_UPDATE_ERROR',err);
+    }
+}
+
 export {
     getBartendersController,
     createBartenderController,
-    createBartenderByIdUserController
+    createBartenderByIdUserController,
+    updateBartenderByIdUserController
 }
