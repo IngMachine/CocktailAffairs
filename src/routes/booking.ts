@@ -3,20 +3,22 @@ import { Router} from "express";
 import {check} from "express-validator";
 import {fieldsValidators} from "../middleware/fields-validators";
 
+import {
+    getBookingController,
+} from "../controllers/booking";
+import {checkRolPermit} from "../middleware/session";
+import {RoleEnum} from "../constant/role";
+
 const router =  Router();
 
-/**
- * http://localhost:3002/auth/register [POST]
- */
-router.post(
-    '/register',
-    [
-    ],
-);
+router.use( checkRolPermit([RoleEnum.Admin]))
 
 /**
- * http://localhost:3002/auth/login [POST]
+ * http://localhost:3002/booking/ [Get]
  */
-router.post('/', )
+router.post(
+    '/',
+    getBookingController
+);
 
 export { router }
