@@ -8,7 +8,6 @@ import {
 } from "../services/role";
 
 import {handleHttp} from "../utils/error.handle";
-import {deleteUserService} from "../services/user";
 
 const getRolesController = async ({body}: Request, res: Response) => {
     try {
