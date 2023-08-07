@@ -46,7 +46,6 @@ const createBartenderByIdUserController = async ({ params, body, files, user }: 
                 msg: 'You cannot create this user'
             })
         }
-
     } catch (err) {
         console.log(err)
         handleHttp(res, 'ERROR_CREATED_BARTENDER', err);
@@ -77,7 +76,6 @@ const updateBartenderByIdController = async( {body, files, params }: Request, re
         const responseBartender = await updateBartenderService(body, files, id);
         return res.status(201).json(responseBartender);
     } catch (err) {
-        console.log(err)
         handleHttp(res, 'ERROR_CREATED_BARTENDER', err);
     }
 }

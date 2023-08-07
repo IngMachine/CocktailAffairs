@@ -1,5 +1,6 @@
 export enum RoleEnum {
     "Admin" = "ADMIN",
     "Bartender" = "BARTENDER",
-    "Customer" = "CUSTOMER"
+    "Customer" = "CUSTOMER",
+    "Visitor" = "VISITOR",
 }
