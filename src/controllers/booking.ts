@@ -1,15 +1,18 @@
 import {Request, Response} from "express";
+import {RequestExt} from "../interfaces/req-ext.interface";
 
 import {
     getBookingsService,
     createBookingService,
     updateBookingService,
-    deleteBookingService
+    deleteBookingService,
+    getUserByBooking
 } from "../services/booking";
 
-import {handleHttp} from "../utils/error.handle";
-import {RequestExt} from "../interfaces/req-ext.interface";
 import {Booking} from "../interfaces/booking.interface";
+
+import {handleHttp} from "../utils/error.handle";
+import {getIsAdminByIdUserService} from "../services/user";
 
 
 const getBookingsController = async (req: Request, res: Response) => {
@@ -23,12 +26,28 @@ const getBookingsController = async (req: Request, res: Response) => {
 
 const createBookingController = async ({ body, user }: RequestExt, res: Response) => {
     try {
-        const booking: Booking = {
-            ...body,
-            user: user?.id
+        let booking: Booking = {
+            ...body
         }
-        const responseBooking = await createBookingService(booking);
-        res.status(200).json(responseBooking);
+
+        if ( await getIsAdminByIdUserService(user?.id) ) {
+            if ( booking.user ) {
+                const responseBooking = await createBookingService(booking);
+                return res.status(201).json(responseBooking);
+            } else {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'There is no user id to create a booking'
+                })
+            }
+        } else {
+            booking = {
+                ...booking,
+                user: user?.id
+            }
+            const responseBooking = await createBookingService(booking);
+            return res.status(200).json(responseBooking);
+        }
     } catch (err) {
         console.log(err)
         handleHttp(res, 'ERROR_CREATE_BOOKING', err);
@@ -37,13 +56,43 @@ const createBookingController = async ({ body, user }: RequestExt, res: Response
 
 const updateBookingController = async  ({ params, body, user }: RequestExt, res: Response) => {
     try {
-        const { id } = params;
-        const booking: Booking = {
-            ...body,
-            user: user?.id
+        let booking: Booking = {
+            ...body
         }
-        const responseBooking = await updateBookingService(id, booking);
-        res.status(200).json(responseBooking);
+        const { id } = params;
+        const userBooking = await getUserByBooking(id);
+        if( userBooking?.toObject().user.toString() === user?.id ){
+            booking = {
+                ...booking,
+                user: user?.id
+            }
+            const responseBooking = await updateBookingService(id, booking);
+            if( responseBooking ) {
+                return res.status(200).json(responseBooking);
+            } else {
+                return res.status(404).json({
+                    ok: false,
+                    msg: 'Booking not found'
+                })
+            }
+        } else {
+            if ( await getIsAdminByIdUserService(user?.id) && body.user ) {
+                const responseBooking = await updateBookingService(id, booking);
+                if( responseBooking ) {
+                    return res.status(200).json(responseBooking);
+                } else {
+                    return res.status(404).json({
+                        ok: false,
+                        msg: 'Booking not found'
+                    })
+                }
+            } else {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'There is no user id to create a booking'
+                })
+            }
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_BOOKING', err);
     }
