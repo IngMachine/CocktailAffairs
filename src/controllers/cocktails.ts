@@ -1,16 +1,11 @@
 import {Request, Response} from "express";
 
 import {
-    getCocktail,
-    getCocktails,
-    insertCocktail,
-    updateCocktail,
-    deleteCocktail,
-
-    getImage,
-    insertImage,
-    updateImageCocktail,
-    deleteImageCocktail
+    getCocktailService,
+    getCocktailsService,
+    createCocktailService,
+    updateCocktailService,
+    deleteCocktailService,
 } from "../services/cocktails";
 
 import {handleHttp} from "../utils/error.handle";
@@ -18,31 +13,31 @@ import {RequestExt} from "../interfaces/req-ext.interface";
 
 const getCocktailsController = async (req: Request, res: Response) => {
     try {
-        const responseCocktails = await getCocktails();
+        const responseCocktails = await getCocktailsService();
         res.json(responseCocktails)
     } catch ( err ) {
         handleHttp(res, 'ERROR_GET_COCKTAILS');
     }
 }
 
-const getCocktailsById = async ({params}: Request, res: Response) => {
+const getCocktailByIdController = async ({params}: Request, res: Response) => {
     try {
         const {id} = params;
-        const response = await getCocktail(id);
+        const response = await getCocktailService(id);
         res.json(response)
     } catch ( err ) {
         handleHttp(res, 'ERROR_GET_COCKTAIL_BY_ID');
     }
 }
 
-const createCocktail = async ({body, user}: RequestExt, res: Response) => {
+const createCocktailController = async ({body, user}: RequestExt, res: Response) => {
     try {
         const newCocktail = {
             ...body,
             user: user?.id
         }
-        const responseCocktail = await insertCocktail(newCocktail);
-        res.json(responseCocktail);
+        const responseCocktail = await createCocktailService(newCocktail);
+        return res.status(201).json(responseCocktail);
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_COCKTAIL', err)
     }
@@ -55,7 +50,7 @@ const updateCocktailController = async ({ params, body, user }: RequestExt, res:
             ...body,
             user: user?.id
         }
-        const responseCocktail = await updateCocktail(id, updateCocktailObject);
+        const responseCocktail = await updateCocktailService(id, updateCocktailObject);
         res.json(responseCocktail);
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_COCKTAIL', err)
@@ -66,78 +61,25 @@ const updateCocktailController = async ({ params, body, user }: RequestExt, res:
 const deleteCocktailController = async ({params}: Request, res: Response) => {
     try {
         const {id} = params;
-        const responseCocktail = await deleteCocktail(id);
-        res.json(responseCocktail);
+        const responseCocktail = await deleteCocktailService(id);
+
+        if( responseCocktail ) {
+            return res.json(responseCocktail);
+        } else {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Cocktail not found'
+            })
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_DELETE_COCKTAIL', err)
     }
 }
 
-
-const getImageController = async (req: Request, res: Response) => {
-    try {
-        const responseGetImage = await getImage();
-        res.json(responseGetImage)
-    } catch ( err ) {
-        handleHttp(res, 'ERROR_GET_IMAGES');
-    }
-}
-
-const uploadImage = async ({body, files}: Request, res: Response) => {
-    try {
-        // @ts-ignore
-        if(files?.image) {
-            const responseImage = await insertImage( files , body );
-            res.status(201).json(responseImage)
-        } else {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No image added'
-            })
-        }
-    } catch (err) {
-        handleHttp(res, 'ERROR_CREATE_IMAGE', err)
-    }
-}
-
-const updateImage = async ({body, files, params}: Request, res: Response) => {
-    try {
-        const { id } = params;
-        if(files?.image) {
-            const responseImage = await updateImageCocktail( files , body, id );
-            res.status(201).json(responseImage)
-        } else {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No hay una imagen agregada para actualizar'
-            })
-        }
-    } catch (err) {
-        handleHttp(res, 'ERROR_UPDATE_IMAGE_COCKTAIL', err)
-    }
-}
-
-const deleteImage = async ({params}: Request, res: Response) => {
-    try {
-        const {id} = params;
-        const responseCocktail = await deleteImageCocktail(id);
-        res.json(responseCocktail);
-    } catch (err) {
-        handleHttp(res, 'ERROR_DELETE_IMAGE_COCKTAIL', err)
-    }
-}
-
 export {
-    // Cocktail
     getCocktailsController,
-    getCocktailsById,
-    createCocktail,
+    getCocktailByIdController,
+    createCocktailController,
     updateCocktailController,
     deleteCocktailController,
-
-    // Image
-    getImageController,
-    uploadImage,
-    updateImage,
-    deleteImage
 }
