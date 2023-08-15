@@ -8,7 +8,8 @@ const BartenderSchema = new Schema<Bartender>(
         user: {
             type: Schema.Types.ObjectId,
             ref: User,
-            required: true
+            required: true,
+            unique: true
         },
         age: {
             type: Number,
