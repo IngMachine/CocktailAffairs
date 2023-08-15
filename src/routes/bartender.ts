@@ -1,3 +1,4 @@
+// TODO: Faltan validaciones en este archivo por las imagenes
 import {Router} from "express";
 
 import {
@@ -5,7 +6,8 @@ import {
     createBartenderController,
     getBartendersController,
     updateBartenderByIdUserController,
-    updateBartenderByIdController
+    updateBartenderByIdController,
+    deleteBartenderByIdController
 } from "../controllers/bartender";
 
 import {checkJWT, checkRolPermit} from "../middleware/session";
@@ -14,7 +16,6 @@ import fileUpload from "express-fileupload";
 
 const router =  Router();
 
-router.use(checkJWT);
 
 /**
  * http://localhost:3002/bartender/ [GET]
@@ -24,12 +25,13 @@ router.get(
     getBartendersController
 );
 
-/**
- * http://localhost:3002/bartender/:idUser [POST]
- */
+router.use(checkJWT);
 
 router.use( checkRolPermit( [ RoleEnum.Admin, RoleEnum.Bartender ] ) );
 
+/**
+ * http://localhost:3002/bartender/:idUser [POST]
+ */
 router.post(
     '/:idUser',
     [
@@ -68,7 +70,8 @@ router.post(
     createBartenderController
 )
 
-router.put('/:id',
+router.put(
+    '/:id',
     [
         fileUpload({
             useTempFiles: true,
@@ -77,5 +80,10 @@ router.put('/:id',
     ],
     updateBartenderByIdController
 );
+
+router.delete(
+    '/:id',
+    deleteBartenderByIdController
+)
 
 export { router }
