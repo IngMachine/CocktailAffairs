@@ -1,6 +1,7 @@
 import {NextFunction, Response} from "express";
-import {verifyToken} from "../utils/jwt.handle";
 import {RequestExt} from "../interfaces/req-ext.interface";
+
+import {verifyToken} from "../utils/jwt.handle";
 import {getUserService} from "../services/user";
 
 const checkJWT = (req: RequestExt, res: Response, next: NextFunction) => {
@@ -21,7 +22,7 @@ const checkJWT = (req: RequestExt, res: Response, next: NextFunction) => {
         console.log(err)
         res.status(400).json({
             ok: false,
-            msg: 'Session No valida'
+            msg: 'Session not valid'
         })
     }
 }

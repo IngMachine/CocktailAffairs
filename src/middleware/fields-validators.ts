@@ -3,7 +3,7 @@ import {NextFunction, Request, Response} from "express";
 const {validationResult} = require("express-validator");
 export const fieldsValidators = (req: Request, res: Response, next: NextFunction) => {
 
-    // Manejo de errores
+    // Manage the errors
     const errors = validationResult(req);
 
     if( !errors.isEmpty() ) {
