@@ -5,7 +5,8 @@ import {
     getBartendersService,
     getBartenderByIdUserService,
     createBartenderService,
-    updateBartenderService
+    updateBartenderService,
+    deleteBartenderByIdService
 } from "../services/bartender";
 
 import {handleHttp} from "../utils/error.handle";
@@ -80,10 +81,28 @@ const updateBartenderByIdController = async( {body, files, params }: Request, re
     }
 }
 
+const deleteBartenderByIdController = async ( {params}:Request, res: Response ) => {
+    try {
+        const { id } = params;
+        const responseBartender = await deleteBartenderByIdService(id);
+        if (responseBartender) {
+            return res.status(200).json(responseBartender);
+        } else {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Bartender not found'
+            })
+        }
+    } catch (err) {
+        handleHttp(res, 'ERROR_DELETE_BARTENDER_BY_ID', err);
+    }
+}
+
 export {
     getBartendersController,
     createBartenderController,
     createBartenderByIdUserController,
     updateBartenderByIdUserController,
-    updateBartenderByIdController
+    updateBartenderByIdController,
+    deleteBartenderByIdController
 }
