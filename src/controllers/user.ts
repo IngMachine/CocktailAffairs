@@ -39,11 +39,28 @@ const getUserController = async({params, user}: RequestExt, res: Response) => {
     }
 }
 
-const updateUserController = async({params, body}: Request, res: Response) => {
+const updateUserController = async({params, body, user}: RequestExt, res: Response) => {
     try {
         const {id} = params;
-        const responseUser = await updateUserService(id, body)
-        return res.status(200).json(responseUser)
+        delete body.password;
+        delete body.email;
+        if ( id === user?.id ) {
+            if ( !await getIsAdminByIdUserService(user.id) ) {
+                delete body.role;
+            }
+            const responseUser = await updateUserService(id, body);
+            return res.status(200).json(responseUser);
+        } else {
+            if(await getIsAdminByIdUserService(user?.id )){
+                const responseUser = await updateUserService(id, body);
+                return res.status(200).json(responseUser);
+            } else {
+                return res.status(401).json({
+                    ok: false,
+                    msg: 'The user lacks the necessary permissions or isn\'t authenticated.'
+                });
+            }
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_USER', err)
     }
