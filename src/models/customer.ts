@@ -1,14 +1,15 @@
 import { Schema, model } from 'mongoose'
-import User from "./user";
 import {Customer} from "../interfaces/customer.interface";
+import UserModel from "./user";
 
 
 const CustomerSchema = new Schema<Customer>(
     {
         user: {
             type: Schema.Types.ObjectId,
-            ref: User,
-            required: true
+            ref: UserModel,
+            required: true,
+            unique: true
         },
         phoneNumber: {
             type: String,
