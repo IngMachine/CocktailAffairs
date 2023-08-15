@@ -1,4 +1,5 @@
 import { Router} from "express";
+import {check, param} from "express-validator";
 
 import {
     getRolesController,
@@ -10,6 +11,7 @@ import {
 import {checkJWT, checkRolPermit} from "../middleware/session";
 
 import {RoleEnum} from "../constant/role";
+import {fieldsValidators} from "../middleware/fields-validators";
 
 const router =  Router();
 
@@ -28,6 +30,11 @@ router.get(
  */
 router.post(
     '/',
+    [
+        check('name', 'Name is required').not().notEmpty(),
+        check('description', 'Description too short').isLength({min: 6}),
+        fieldsValidators,
+    ],
     createRoleController
 )
 
@@ -36,6 +43,15 @@ router.post(
  */
 router.put(
     '/:id',
+    [
+        param('id', 'The id is required')
+            .not()
+            .notEmpty()
+            .isMongoId().withMessage('The id is invalid')
+        ,
+        check('description', 'Description too short').isLength({min: 6}),
+        fieldsValidators,
+    ],
     updateRoleController
 )
 
@@ -44,6 +60,14 @@ router.put(
  */
 router.delete(
     '/:id',
+    [
+        param('id', 'The id is required')
+            .not()
+            .notEmpty()
+            .isMongoId().withMessage('The id is invalid')
+        ,
+        fieldsValidators,
+    ],
     deleteRoleController
 )
 
