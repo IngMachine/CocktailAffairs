@@ -1,7 +1,9 @@
 import { Router} from "express";
-import {loginController, registerController} from "../controllers/auth";
 import {check} from "express-validator";
+
 import {fieldsValidators} from "../middleware/fields-validators";
+import {loginController, registerController} from "../controllers/auth";
+import {isMongoIdOfArrayOptionalValidator} from "../utils/is-mongo-id-validator";
 
 const router =  Router();
 
@@ -16,6 +18,8 @@ router.post(
             .isLength({min: 6}).withMessage('The password is minimum the 6 characters'),
         check('email', 'The email is required').not().notEmpty()
             .isEmail().withMessage('The email not valid format'),
+        check('role').optional().isArray()
+            .custom( value => isMongoIdOfArrayOptionalValidator(value)),
         fieldsValidators
     ],
     registerController
