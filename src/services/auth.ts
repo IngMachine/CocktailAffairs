@@ -3,17 +3,22 @@ import {User} from "../interfaces/user.interface";
 import {encrypt, verified} from "../utils/bcrypt.handle";
 import {Auth} from "../interfaces/auth.interface";
 import {generateToken} from "../utils/jwt.handle";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 const createUser = async ({ email, password, name, description, role }: User) => {
     const checkIs = await UserModel.findOne( { email });
     const passwordHash = await encrypt(password);
-    if( checkIs ) return "ALREADY_USER";
+    if( checkIs ) return {
+        ok: false,
+        msg: "User already exists"
+    };
 
     try {
         const user = await UserModel.create({email, password: passwordHash, name, description, role});
         const token = await generateToken(user);
 
         return {
+            ok: true,
             token,
             user
         };
@@ -25,16 +30,23 @@ const createUser = async ({ email, password, name, description, role }: User) =>
 
 const loginUser = async( { email, password}: Auth) => {
     const checkIs = await UserModel.findOne( { email });
-    if( !checkIs ) return "NOT_FOUND_USER";
+    if( !checkIs ) return {
+        ok: false,
+        msg: MessageErrorsEnum.EmailOrPasswordIncorrect
+    }
 
     const passwordHash = checkIs.password;
     const isCorrect = await verified(password, passwordHash);
 
-    if( !isCorrect ) return "PASSWORD_INCORRECT";
+    if( !isCorrect ) return {
+        ok: false,
+        msg: MessageErrorsEnum.EmailOrPasswordIncorrect
+    }
 
     const token = await generateToken(checkIs)
 
     return {
+        ok: true,
         token,
         user: checkIs
     };
