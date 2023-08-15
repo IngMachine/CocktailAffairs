@@ -69,14 +69,21 @@ const updateUserController = async({params, body, user}: RequestExt, res: Respon
 const deleteUserController = async({params}: Request, res: Response) => {
     try {
         const {id} = params;
-        const responseUser = await deleteUserService(id);
-        if (responseUser) {
-            return res.status(200).json(responseUser);
-        } else {
-            return res.status(404).json({
+        if ( await getIsAdminByIdUserService(id) ){
+            return res.status(401).json({
                 ok: false,
-                msg: "User not found"
-            })
+                msg: 'The user you are trying to delete is an administrator.'
+            });
+        } else {
+            const responseUser = await deleteUserService(id);
+            if (responseUser) {
+                return res.status(200).json(responseUser);
+            } else {
+                return res.status(404).json({
+                    ok: false,
+                    msg: "User not found"
+                })
+            }
         }
     } catch (err) {
         handleHttp(res, 'ERROR_DELETE_USER', err);
