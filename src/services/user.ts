@@ -1,25 +1,50 @@
 import UserModel from "../models/user";
 import {User} from "../interfaces/user.interface";
+
 import {getRolesService} from "./role";
+import {RoleEnum} from "../constant/role";
 
 const getUsersService = async () => {
-    return await UserModel.find({})
-        .select('name email description role -_id')
-        .populate('role', '-_id name description')
+    try {
+        return await UserModel.find({})
+            .select('name email description role _id')
+            .populate('role', '-_id name description');
+    } catch (err) {
+        throw err;
+    }
 }
 
 const getUserService = async (id: string) => {
-    return await UserModel.findById(id)
-        .populate('role', '_id name');
+    try {
+        return await UserModel.findById(id)
+            .select('-password')
+            .populate('role', '_id name');
+    } catch (err) {
+        throw err;
+    }
+}
+
+const getIsAdminByIdUserService = async (id: string) => {
+    const roles =  await UserModel.findById( id ).select('-_id role').populate('role', '-_id name');
+    const roleNames = roles?.role.map(role => role.name) || [];
+    return !!roleNames.includes(RoleEnum.Admin);
 }
 
 const updateUserService = async (id: string, user: User) => {
     try {
         const userDB = await UserModel.findById(id);
         const userData = userDB!.toObject();
+        const rolesDB = userData.role.map( role => role.toString() );
+        // @ts-ignore
+        const newRoles = user.role as string[] || [];
+
+        let filteredRoles = newRoles.filter(role => !rolesDB.includes(role));
+        let resultArray = rolesDB.concat(filteredRoles);
+
         const newUser = {
             ...userData,
-            ...user
+            ...user,
+            role: resultArray
         }
 
         return  await UserModel.findByIdAndUpdate(
@@ -78,12 +103,19 @@ const updateRoleUserByIdService = async (id: string, role: string) => {
 }
 
 const deleteUserService = async (id: string) => {
-    return await UserModel.findByIdAndDelete(id);
+    try {
+        return await UserModel.findByIdAndDelete(id);
+    } catch (err) {
+        throw err;
+    }
 }
+
+
 
 export  {
     getUsersService,
     getUserService,
+    getIsAdminByIdUserService,
     updateUserService,
     updateRoleUserByIdService,
     deleteUserService
