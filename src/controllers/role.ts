@@ -2,8 +2,8 @@ import {Request, Response} from "express";
 
 import {
     getRolesService,
-    insertRol,
-    updateRol,
+    createRoleService,
+    updateRoleService,
     deleteRoleService
 } from "../services/role";
 
@@ -20,7 +20,7 @@ const getRolesController = async ({body}: Request, res: Response) => {
 
 const createRoleController = async ({body}: Request, res: Response) => {
     try {
-        const responseRol = await insertRol(body);
+        const responseRol = await createRoleService(body);
         res.json(responseRol);
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_ROL', err)
@@ -31,7 +31,7 @@ const updateRoleController = async ({ params, body }: Request, res: Response) =>
     try {
         const { id } = params;
         delete body.name;
-        const responseRole = await updateRol( id, body );
+        const responseRole = await updateRoleService( id, body );
         res.status(200).json(responseRole);
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_ROL', err);
