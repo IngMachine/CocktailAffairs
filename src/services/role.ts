@@ -3,26 +3,31 @@ import {Role} from "../interfaces/role.interface";
 
 
 const getRolesService = async() => {
-    return await RoleModel
-        .find({})
-        .select('-createdAt -updatedAt')
+    try {
+        return await RoleModel
+            .find({})
+            .select('-createdAt -updatedAt');
+    } catch (err) {
+        throw err;
+    }
 }
 
-const insertRol = async (role: Role) => {
+const createRoleService = async (role: Role) => {
     return await RoleModel.create({
         ...role,
         name: role.name.toUpperCase()
     });
 }
 
-const updateRol = async ( id: string, role: Role) => {
+const updateRoleService = async ( id: string, role: Role) => {
     try {
+        const newRole = {
+            ...role,
+            role
+        }
         return await RoleModel.findByIdAndUpdate(
             id,
-            {
-                ...role,
-                name: role.name.toUpperCase()
-            },
+            newRole,
             {
                 new: true
             }
@@ -33,12 +38,16 @@ const updateRol = async ( id: string, role: Role) => {
 }
 
 const deleteRoleService = async(id: string) => {
-    return await RoleModel.findByIdAndDelete(id);
+    try {
+        return await RoleModel.findByIdAndDelete(id);
+    } catch (err) {
+        throw err;
+    }
 }
 
 export {
     getRolesService,
-    insertRol,
-    updateRol,
+    createRoleService,
+    updateRoleService,
     deleteRoleService
 }
