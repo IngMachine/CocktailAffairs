@@ -1,20 +1,43 @@
+import fs from "fs-extra";
+
 import BartenderModel from "../models/bartender";
 import {Bartender} from "../interfaces/bartender.interface";
-import {deleteImageCloudinary, uploadImageCloudinary} from "../config/cloudinary";
-import {FolderImage, LinkImage} from "../constant/folderImage";
-import fs from "fs-extra";
-import {getUserService, updateRoleUserByIdService} from "./user";
 import {RoleEnum} from "../constant/role";
+
+import {
+    deleteImageCloudinary,
+    uploadImageCloudinary
+} from "../config/cloudinary";
+import {
+    FolderImage,
+    LinkImage
+} from "../constant/folderImage";
+
+import {
+    getUserService,
+    updateRoleUserByIdService
+} from "./user";
+
+import {addUnderScope} from "../utils/words";
 
 
 const getBartendersService = async () => {
-    return await BartenderModel.find({})
-        .populate('user', 'name email description')
+    try {
+        return await BartenderModel.find({})
+            .populate('user', 'name email description')
+    } catch (err) {
+        throw err;
+    }
+
 }
 
 const getBartenderByIdUserService = async (idUser: string) => {
-    return await BartenderModel.findOne({ user: idUser })
-        .select('_id');
+    try {
+        return await BartenderModel.findOne({ user: idUser })
+            .select('_id');
+    } catch (err) {
+        throw err;
+    }
 }
 
 const createBartenderService = async ( bartender: Bartender, files: any ) => {
@@ -29,7 +52,7 @@ const createBartenderService = async ( bartender: Bartender, files: any ) => {
                 result = await uploadImageCloudinary(
                     files.image.tempFilePath,
                     FolderImage.Bartenders,
-                `${user!.name}-${bartender.age}`
+                addUnderScope(`${user!.name}-${bartender.age}`)
                 );
                 await fs.unlink(files.image.tempFilePath)
             } else {
@@ -70,7 +93,7 @@ const updateBartenderService = async (bartender: Bartender, files: any, id: stri
                 result = await uploadImageCloudinary(
                     files.image.tempFilePath,
                     FolderImage.Bartenders,
-                    `${user!.name}-${bartender.age}`
+                    addUnderScope(`${user!.name}-${bartender.age}`)
                 );
                 await deleteImageCloudinary(bartenderDB!.public_id)
                 await fs.unlink(files.image.tempFilePath)
@@ -113,9 +136,18 @@ const updateBartenderService = async (bartender: Bartender, files: any, id: stri
 
 }
 
+const deleteBartenderByIdService = async (id: string) => {
+    try {
+        return await BartenderModel.findByIdAndDelete(id);
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
     getBartendersService,
     getBartenderByIdUserService,
     createBartenderService,
-    updateBartenderService
+    updateBartenderService,
+    deleteBartenderByIdService
 }
