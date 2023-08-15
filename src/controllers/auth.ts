@@ -6,7 +6,11 @@ import {handleHttp} from "../utils/error.handle";
 const registerController = async ({body}: Request, res: Response) => {
     try {
         const responseUser = await createUser(body);
-        res.json(responseUser);
+        if ( responseUser.ok ) {
+            res.status(201).json(responseUser);
+        } else {
+            res.status(400).json(responseUser);
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_USER', err)
     }
@@ -14,7 +18,7 @@ const registerController = async ({body}: Request, res: Response) => {
 
 const loginController = async ({body}: Request, res: Response) => {
     const responseUser = await loginUser(body);
-    if ( responseUser === "PASSWORD_INCORRECT" || responseUser === "NOT_FOUND_USER") {
+    if ( !responseUser.ok ) {
         res.status(403).json(responseUser);
     } else {
         res.json(responseUser);
