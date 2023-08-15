@@ -11,6 +11,23 @@ const getBookingsService = async() => {
     }
 }
 
+const getUserByBookingService = async(id: string) => {
+    try {
+        return BookingModel.findById(id)
+            .select('user -_id');
+    } catch (err) {
+        throw err;
+    }
+}
+
+const getBookingByIdService = async(id: string) => {
+    try {
+        return await BookingModel.findById(id);
+    } catch (err) {
+        throw err;
+    }
+}
+
 const createBookingService = async(booking: Booking) => {
     try {
         return await BookingModel.create(booking);
@@ -45,6 +62,8 @@ const deleteBookingService = async(id: string) => {
 
 export {
     getBookingsService,
+    getBookingByIdService,
+    getUserByBookingService,
     createBookingService,
     updateBookingService,
     deleteBookingService

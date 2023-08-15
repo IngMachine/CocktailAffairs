@@ -6,7 +6,7 @@ import {
     createBookingService,
     updateBookingService,
     deleteBookingService,
-    getUserByBooking
+    getUserByBookingService
 } from "../services/booking";
 
 import {Booking} from "../interfaces/booking.interface";
@@ -60,7 +60,7 @@ const updateBookingController = async  ({ params, body, user }: RequestExt, res:
             ...body
         }
         const { id } = params;
-        const userBooking = await getUserByBooking(id);
+        const userBooking = await getUserByBookingService(id);
         if( userBooking?.toObject().user.toString() === user?.id ){
             booking = {
                 ...booking,
