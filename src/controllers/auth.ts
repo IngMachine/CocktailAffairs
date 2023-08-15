@@ -1,11 +1,16 @@
 import {Request, Response} from "express";
-import {createUser, loginUser} from "../services/auth";
+
+import {
+    createUserService,
+    loginUserService
+} from "../services/auth";
+
 import {handleHttp} from "../utils/error.handle";
 
 
 const registerController = async ({body}: Request, res: Response) => {
     try {
-        const responseUser = await createUser(body);
+        const responseUser = await createUserService(body);
         if ( responseUser.ok ) {
             res.status(201).json(responseUser);
         } else {
@@ -17,7 +22,7 @@ const registerController = async ({body}: Request, res: Response) => {
 }
 
 const loginController = async ({body}: Request, res: Response) => {
-    const responseUser = await loginUser(body);
+    const responseUser = await loginUserService(body);
     if ( !responseUser.ok ) {
         res.status(403).json(responseUser);
     } else {

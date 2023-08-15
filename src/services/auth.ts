@@ -5,7 +5,7 @@ import {Auth} from "../interfaces/auth.interface";
 import {generateToken} from "../utils/jwt.handle";
 import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
-const createUser = async ({ email, password, name, description, role }: User) => {
+const createUserService = async ({ email, password, name, description, role }: User) => {
     const checkIs = await UserModel.findOne( { email });
     const passwordHash = await encrypt(password);
     if( checkIs ) return {
@@ -28,7 +28,7 @@ const createUser = async ({ email, password, name, description, role }: User) =>
 
 }
 
-const loginUser = async( { email, password}: Auth) => {
+const loginUserService = async( { email, password}: Auth) => {
     const checkIs = await UserModel.findOne( { email });
     if( !checkIs ) return {
         ok: false,
@@ -54,6 +54,6 @@ const loginUser = async( { email, password}: Auth) => {
 }
 
 export {
-    createUser,
-    loginUser
+    createUserService,
+    loginUserService
 }
