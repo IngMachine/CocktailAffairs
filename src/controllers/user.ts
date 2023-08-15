@@ -3,11 +3,13 @@ import {Request, Response} from "express";
 import {
     getUsersService,
     getUserService,
+    getIsAdminByIdUserService,
     updateUserService,
     deleteUserService
 } from "../services/user";
 
 import {handleHttp} from "../utils/error.handle";
+import {RequestExt} from "../interfaces/req-ext.interface";
 
 
 const getUsersController = async(req: Request, res: Response) => {
@@ -20,11 +22,18 @@ const getUsersController = async(req: Request, res: Response) => {
     }
 }
 
-const getUserController = async({params}: Request, res: Response) => {
+const getUserController = async({params, user}: RequestExt, res: Response) => {
     try {
         const { id } = params;
-        const responseUser = await getUserService(id);
-        return res.status(200).json(responseUser);
+        if ( id === user?.id || await getIsAdminByIdUserService(user?.id )) {
+            const responseUser = await getUserService(id);
+            return res.status(200).json(responseUser);
+        } else {
+            return res.status(401).json({
+                ok: false,
+                msg: 'The user lacks the necessary permissions or isn\'t authenticated.'
+            });
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_GET_USER_BY_ID', err);
     }
