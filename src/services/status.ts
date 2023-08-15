@@ -1,21 +1,24 @@
 import StatusModel from "../models/status";
 import {Status} from "../interfaces/status.interfaces";
 
-
 const getStatusService = async() => {
-    return await StatusModel
-        .find({})
-        .select('-createdAt -updatedAt')
+    try {
+        return await StatusModel
+            .find({})
+            .select('-createdAt -updatedAt');
+    } catch (err) {
+        throw err;
+    }
 }
 
-const insertStatus = async (status: Status) => {
+const createStatusService = async (status: Status) => {
     return await StatusModel.create({
         ...status,
         name: status.name.toUpperCase()
     });
 }
 
-const updateStatus = async ( id: string, status: Status) => {
+const updateStatusService = async ( id: string, status: Status) => {
     try {
         return await StatusModel.findByIdAndUpdate(
             id,
@@ -33,12 +36,16 @@ const updateStatus = async ( id: string, status: Status) => {
 }
 
 const deleteStatusService = async(id: string) => {
-    return await StatusModel.findByIdAndDelete(id);
+    try {
+        return await StatusModel.findByIdAndDelete(id);
+    } catch (err) {
+        throw err;
+    }
 }
 
 export {
     getStatusService,
-    insertStatus,
-    updateStatus,
+    createStatusService,
+    updateStatusService,
     deleteStatusService
 }

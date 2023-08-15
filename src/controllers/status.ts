@@ -5,8 +5,8 @@ import {Request, Response} from "express";
 import {handleHttp} from "../utils/error.handle";
 import {
     getStatusService,
-    insertStatus,
-    updateStatus,
+    createStatusService,
+    updateStatusService,
     deleteStatusService
 } from "../services/status";
 
@@ -21,8 +21,8 @@ const getStatusController = async ({body}: Request, res: Response) => {
 
 const createStatusController = async ({body}: Request, res: Response) => {
     try {
-        const responseStatus = await insertStatus(body);
-        res.json(responseStatus);
+        const responseStatus = await createStatusService(body);
+        return res.status(201).json(responseStatus);
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_STATUS', err)
     }
@@ -31,8 +31,8 @@ const createStatusController = async ({body}: Request, res: Response) => {
 const updateStatusController = async ({ params, body }: Request, res: Response) => {
     try {
         const { id } = params;
-        const responseRole = await updateStatus( id, body );
-        res.status(200).json(responseRole);
+        const responseRole = await updateStatusService( id, body );
+        return res.status(200).json(responseRole);
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_ROL', err);
     }
