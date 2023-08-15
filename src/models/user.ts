@@ -2,6 +2,7 @@ import { Schema,  model } from 'mongoose';
 
 import {User} from "../interfaces/user.interface";
 import RoleModel from "./role";
+import {RoleEnum} from "../constant/role";
 
 const UserSchema = new Schema<User>(
     {
@@ -46,7 +47,7 @@ UserSchema.method('toJSON', function() {
 })
 UserSchema.pre('save', async function (next) {
     if (this.isNew && !this.role.length) {
-        const defaultRole = await RoleModel.findOne({ name: 'VISITOR' });
+        const defaultRole = await RoleModel.findOne({ name: RoleEnum.Visitor });
         // @ts-ignore
         this.role.push(defaultRole?._id);
     }
