@@ -30,6 +30,7 @@ const createRoleController = async ({body}: Request, res: Response) => {
 const updateRoleController = async ({ params, body }: Request, res: Response) => {
     try {
         const { id } = params;
+        delete body.name;
         const responseRole = await updateRol( id, body );
         res.status(200).json(responseRole);
     } catch (err) {
