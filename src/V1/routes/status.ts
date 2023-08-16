@@ -5,12 +5,12 @@ import {
     updateStatusController,
     createStatusController,
     deleteStatusController
-} from "../controllers/status";
+} from "../../controllers/status";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {RoleEnum} from "../constant/role";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {RoleEnum} from "../../constant/role";
 import {check, param} from "express-validator";
-import {fieldsValidators} from "../middleware/fields-validators";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
 const router =  Router();
 

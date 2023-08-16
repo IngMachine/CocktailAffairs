@@ -8,10 +8,10 @@ import {
     updateBartenderByIdUserController,
     updateBartenderByIdController,
     deleteBartenderByIdController
-} from "../controllers/bartender";
+} from "../../controllers/bartender";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {RoleEnum} from "../constant/role";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {RoleEnum} from "../../constant/role";
 import fileUpload from "express-fileupload";
 
 const router =  Router();

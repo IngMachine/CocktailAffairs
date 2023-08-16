@@ -1,7 +1,7 @@
 import { Router} from "express";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {RoleEnum} from "../constant/role";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {RoleEnum} from "../../constant/role";
 
 import {
     getOrdersController,
@@ -10,10 +10,10 @@ import {
     createOrderController,
     updateOrderByIdController,
     deleteOrderByIdController
-} from "../controllers/order";
+} from "../../controllers/order";
 
 import {check, param} from "express-validator";
-import {fieldsValidators} from "../middleware/fields-validators";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
 const router =  Router();
 

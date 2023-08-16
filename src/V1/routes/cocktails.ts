@@ -6,13 +6,13 @@ import {
     getCocktailByIdController,
     getCocktailsController,
     updateCocktailController,
-} from "../controllers/cocktails";
+} from "../../controllers/cocktails";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {fieldsValidators} from "../middleware/fields-validators";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
-import {RoleEnum} from "../constant/role";
-import {validateCocktail} from "../utils/validate-cocktail";
+import {RoleEnum} from "../../constant/role";
+import {validateCocktail} from "../../utils/validate-cocktail";
 import {param} from "express-validator";
 
 const router =  Router();

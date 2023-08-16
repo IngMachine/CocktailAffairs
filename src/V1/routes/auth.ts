@@ -1,14 +1,14 @@
 import { Router} from "express";
 import {check} from "express-validator";
 
-import {fieldsValidators} from "../middleware/fields-validators";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
 import {
         loginController,
         registerController
-} from "../controllers/auth";
+} from "../../controllers/auth";
 
-import {isMongoIdOfArrayOptionalValidator} from "../utils/is-mongo-id-validator";
+import {isMongoIdOfArrayOptionalValidator} from "../../utils/is-mongo-id-validator";
 
 const router =  Router();
 

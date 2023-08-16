@@ -6,12 +6,12 @@ import {
     createRoleController,
     updateRoleController,
     deleteRoleController
-} from "../controllers/role";
+} from "../../controllers/role";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
 
-import {RoleEnum} from "../constant/role";
-import {fieldsValidators} from "../middleware/fields-validators";
+import {RoleEnum} from "../../constant/role";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
 const router =  Router();
 

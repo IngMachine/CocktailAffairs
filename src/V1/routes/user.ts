@@ -6,11 +6,11 @@ import {
     getUserController,
     updateUserController,
     deleteUserController
-} from "../controllers/user";
+} from "../../controllers/user";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {fieldsValidators} from "../middleware/fields-validators";
-import {RoleEnum} from "../constant/role";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {fieldsValidators} from "../../middleware/fields-validators";
+import {RoleEnum} from "../../constant/role";
 
 const router =  Router();
 

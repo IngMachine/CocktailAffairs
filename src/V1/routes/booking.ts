@@ -6,12 +6,12 @@ import {
     deleteBookingController,
     getBookingsController,
     updateBookingController
-} from "../controllers/booking";
+} from "../../controllers/booking";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {fieldsValidators} from "../middleware/fields-validators";
-import {validateBooking} from "../utils/validate-booking";
-import {RoleEnum} from "../constant/role";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {fieldsValidators} from "../../middleware/fields-validators";
+import {validateBooking} from "../../utils/validate-booking";
+import {RoleEnum} from "../../constant/role";
 
 const router =  Router();
 

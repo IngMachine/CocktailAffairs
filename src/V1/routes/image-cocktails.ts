@@ -1,7 +1,7 @@
 // TODO: Faltan validaciones en este archivo por las imagenes
 import {Router} from "express";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
 
 import fileUpload from "express-fileupload";
 
@@ -10,11 +10,11 @@ import {
     getImagesCocktailsController,
     updateImageCocktailController,
     uploadImageCocktailController
-} from "../controllers/image-cocktails";
-import {RoleEnum} from "../constant/role";
+} from "../../controllers/image-cocktails";
+import {RoleEnum} from "../../constant/role";
 
 import { check }  from "express-validator";
-import {fieldsValidators} from "../middleware/fields-validators";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
 const router =  Router();
 

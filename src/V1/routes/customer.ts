@@ -8,12 +8,12 @@ import {
     updateCustomerByIdUserController,
     updateCustomerByIdController,
     deleteCustomerByIdController
-} from "../controllers/customer";
+} from "../../controllers/customer";
 
-import {checkJWT, checkRolPermit} from "../middleware/session";
-import {RoleEnum} from "../constant/role";
+import {checkJWT, checkRolPermit} from "../../middleware/session";
+import {RoleEnum} from "../../constant/role";
 import {check, param} from "express-validator";
-import {fieldsValidators} from "../middleware/fields-validators";
+import {fieldsValidators} from "../../middleware/fields-validators";
 
 const router =  Router();
 
