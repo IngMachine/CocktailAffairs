@@ -14,7 +14,7 @@ const registerController = async ({body}: Request, res: Response) => {
         if ( responseUser.ok ) {
             res.status(201).json(responseUser);
         } else {
-            res.status(400).json(responseUser);
+            res.status(409).json(responseUser);
         }
     } catch (err) {
         handleHttp(res, 'ERROR_CREATE_USER', err)
