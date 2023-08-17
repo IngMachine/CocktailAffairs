@@ -9,6 +9,7 @@ import {
 } from '../../controllers/auth';
 
 import {isMongoIdOfArrayOptionalValidator} from '../../utils/is-mongo-id-validator';
+import {MessageErrorsEnum} from "../../constant/messageOfErrors";
 
 const router =  Router();
 
@@ -79,11 +80,17 @@ const router =  Router();
 router.post(
     '/register',
     [
-        check('name', 'The name is required').not().notEmpty(),
-        check('password', 'The password is required').not().notEmpty()
-            .isLength({min: 6}).withMessage('The password is minimum the 6 characters'),
-        check('email', 'The email is required').not().notEmpty()
-            .isEmail().withMessage('The email not valid format'),
+        check('name', MessageErrorsEnum.NameIsRequired)
+            .not()
+            .notEmpty(),
+        check('password', MessageErrorsEnum.PasswordIsRequired)
+            .not()
+            .notEmpty()
+            .isLength({min: 6}).withMessage(MessageErrorsEnum.PasswordMinimumLength),
+        check('email', MessageErrorsEnum.EmailIsRequired)
+            .not()
+            .notEmpty()
+            .isEmail().withMessage(MessageErrorsEnum.EmailNotFormatValid),
         check('role').optional().isArray()
             .custom( value => isMongoIdOfArrayOptionalValidator(value)),
         fieldsValidators
@@ -92,8 +99,80 @@ router.post(
 );
 
 /**
- * http://localhost:3002/auth/login [POST]
+ * @openapi
+ * /api/auth/login:
+ *     post:
+ *         tags:
+ *           - users
+ *         summary: Login a user
+ *         description: With this endpoint, registered users can log into their CocktailAffray accounts.
+ *                      By submitting their email and password, users can obtain an access token.
+ *                      This token is necessary for secure access to protected areas of the application.
+ *         requestBody:
+ *             content:
+ *                 application/json:
+ *                     schema:
+ *                         $ref: '#/components/schemas/userLogin'
+ *                     examples:
+ *                         userAdmin:
+ *                             $ref: '#/components/examples/userAdmin'
+ *                         userTest:
+ *                             $ref: '#/components/examples/userTest'
+ *                         failedEmail:
+ *                             $ref: '#/components/examples/failedEmail'
+ *                         failedPassword:
+ *                             $ref: '#/components/examples/failedPassword'
+ *                         userLoginFieldFailed:
+ *                             $ref: '#/components/examples/userLoginFieldFailed'
+ *                         userLoginEmailFailed:
+ *                             $ref: '#/components/examples/userLoginEmailFailed'
+ *         responses:
+ *             '200':
+ *                 description: User created successfully
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/userCreated'
+ *                         examples:
+ *                             userAdmin:
+ *                                 $ref: '#/components/examples/userAdminResponse'
+ *                             userTest:
+ *                                 $ref: '#/components/examples/userTestResponse'
+ *             '400':
+ *                 description: Errors occurred creating user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorsField'
+ *                         examples:
+ *                             userLoginErrorField:
+ *                                 $ref: '#/components/examples/userLoginErrorField'
+ *                             userLoginErrorEmail:
+ *                                  $ref: '#/components/examples/userLoginErrorEmail'
+ *             '403':
+ *                 description: Errors occurred creating user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             failedEmailOrPassword:
+ *                                 $ref: '#/components/examples/userFailedEmailOrPassword'
  */
-router.post('/login', loginController)
+router.post(
+    '/login',
+    [
+        check('email', MessageErrorsEnum.EmailIsRequired)
+            .not()
+            .notEmpty()
+            .isEmail().withMessage(MessageErrorsEnum.EmailNotFormatValid),
+        check('password', MessageErrorsEnum.PasswordIsRequired)
+            .not()
+            .notEmpty()
+            .isLength({min: 6}).withMessage(MessageErrorsEnum.PasswordMinimumLength),
+        fieldsValidators
+    ],
+    loginController
+)
 
 export { router }
