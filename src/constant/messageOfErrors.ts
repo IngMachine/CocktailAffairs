@@ -10,5 +10,7 @@ export enum MessageErrorsEnum {
     EmailNotFormatValid = 'The email not valid format',
     InvalidObjectId = 'Invalid ObjectId',
     PasswordMinimumLength = 'The password is minimum the 6 characters',
-    IdIsRequired = 'The id is required'
+    IdIsRequired = 'The id is required',
+    SessionNoValid = 'The session is not valid',
+    UserNotPermitted = 'The user lacks the necessary permissions'
 }
