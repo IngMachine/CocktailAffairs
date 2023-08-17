@@ -3,6 +3,7 @@ import {RequestExt} from "../interfaces/req-ext.interface";
 
 import {verifyToken} from "../utils/jwt.handle";
 import {getUserService} from "../services/user";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 const checkJWT = (req: RequestExt, res: Response, next: NextFunction) => {
     try {
@@ -20,9 +21,9 @@ const checkJWT = (req: RequestExt, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         console.log(err)
-        res.status(400).json({
+        res.status(403).json({
             ok: false,
-            msg: 'Session not valid'
+            msg: MessageErrorsEnum.SessionNoValid
         })
     }
 }
