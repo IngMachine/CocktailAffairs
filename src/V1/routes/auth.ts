@@ -14,7 +14,7 @@ const router =  Router();
 
 /**
  * @openapi
- * /register:
+ * /api/auth/register:
  *     post:
  *         tags:
  *           - users
