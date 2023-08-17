@@ -70,6 +70,47 @@ const swaggerDefinition: OAS3Definition = {
                     }
                 }
             },
+            userView: {
+              type: 'object',
+              properties: {
+                  name: {
+                      type: 'string'
+                  },
+                  email: {
+                      type: 'string'
+                  },
+                  description: {
+                      type: 'string'
+                  },
+                  role: {
+                      type: 'array',
+                      items: {
+                          type: 'object',
+                          properties: {
+                              _id: {
+                                  type: 'string',
+                                  format: 'mongo-id'
+                              },
+                              name: {
+                                  type: 'string'
+                              }
+                          }
+                      }
+                  },
+                  createdAt: {
+                      type: 'string',
+                      format: 'date-time'
+                  },
+                  updatedAt: {
+                      type: 'string',
+                      format: 'date-time'
+                  },
+                  id: {
+                      type: 'string',
+                      format: 'mongo-id'
+                  }
+              }
+            },
             userCreated: {
                 type: 'object',
                 properties: {
@@ -448,6 +489,56 @@ const swaggerDefinition: OAS3Definition = {
                 value: {
                     'ok': false,
                     'msg': MessageErrorsEnum.EmailOrPasswordIncorrect
+                }
+            },
+            userViewResponse: {
+                summary: 'User view response',
+                value: {
+                    'name': 'test',
+                    'email': 'test@google.com',
+                    'description': 'New description',
+                    'role': [
+                        {
+                            '_id': '64cbd75fa0ebec5e5af4f5cb',
+                            'name': 'VISITOR'
+                        },
+                        {
+                            '_id': '64cbd74fa0ebec5e5af4f5c9',
+                            'name': 'CUSTOMER'
+                        }
+                    ],
+                    'createdAt': '2023-08-07T02:14:59.850Z',
+                    'updatedAt': '2023-08-08T18:19:34.473Z',
+                    'id': '64d053a31e3be46662a6954a'
+                }
+            },
+            userViewErrorId: {
+                summary: 'id not correct for user',
+                value: {
+                    'ok': false,
+                    'errors': {
+                        'id': {
+                            'type': 'field',
+                            'value': 'asw',
+                            'msg': MessageErrorsEnum.InvalidObjectId,
+                            'path': 'id',
+                            'location': 'params'
+                        }
+                    }
+                }
+            },
+            errorAuthorizationResponse: {
+                summary: 'error in authorization',
+                value: {
+                    'ok': false,
+                    'msg': MessageErrorsEnum.UserNotPermitted
+                }
+            },
+            userNoSession: {
+                summary: 'Error no session',
+                value: {
+                    'ok': false,
+                    'msg': MessageErrorsEnum.SessionNoValid
                 }
             }
         }

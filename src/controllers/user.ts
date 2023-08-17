@@ -23,7 +23,7 @@ const getUsersController = async(req: Request, res: Response) => {
     }
 }
 
-const getUserController = async({params, user}: RequestExt, res: Response) => {
+const getUserByIdController = async({params, user}: RequestExt, res: Response) => {
     try {
         const { id } = params;
         if ( id === user?.id || await getIsAdminByIdUserService(user?.id )) {
@@ -93,7 +93,7 @@ const deleteUserController = async({params}: Request, res: Response) => {
 
 export {
     getUsersController,
-    getUserController,
+    getUserByIdController,
     updateUserController,
     deleteUserController
 }

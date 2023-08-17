@@ -3,7 +3,7 @@ import {check, param} from "express-validator";
 
 import {
     getUsersController,
-    getUserController,
+    getUserByIdController,
     updateUserController,
     deleteUserController
 } from "../../controllers/user";
@@ -23,18 +23,74 @@ router.use(
 );
 
 /**
- * http://localhost:3002/user/:id [GET]
+ * @openapi
+ * /api/user/{id}:
+ *     get:
+ *         parameters:
+ *         - name: id
+ *           in: path
+ *           description:  The id of the user
+ *           required: true
+ *           type: string
+ *           format: mongo-id
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - users
+ *         summary: Get user by id
+ *         description: This endpoint allows administrators and users with visitor roles to retrieve
+ *                      detailed information about a specific user based on their ID.
+ *                      <br>Only administrators and users with visitor roles can access this information.
+ *                      <br>    * Administrators can retrieve information for any user.
+ *                      <br>    * Users with visitor roles can only retrieve their own information (based on the token).
+ *         responses:
+ *             '200':
+ *                 description: view data the user by id
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/userView'
+ *                         examples:
+ *                             userTest:
+ *                                 $ref: '#/components/examples/userViewResponse'
+ *             '400':
+ *                 description: Errors occurred creating user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorsField'
+ *                         examples:
+ *                             userViewErrorId:
+ *                                 $ref: '#/components/examples/userViewErrorId'
+ *             '401':
+ *                 description: Not authorized for view the user by id
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
  */
 router.get(
     '/:id',
     [
-        param(':id', MessageErrorsEnum.IdIsRequired)
+        param('id', MessageErrorsEnum.IdIsRequired)
             .not()
             .notEmpty()
             .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId),
         fieldsValidators
     ],
-    getUserController
+    getUserByIdController
 )
 
 /**
