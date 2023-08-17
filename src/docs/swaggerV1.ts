@@ -1,5 +1,5 @@
 import swaggerJsDocs, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
-import {MessageErrorsEnum} from "../constant/messageOfErrors";
+import {MessageErrorsEnum} from '../constant/messageOfErrors';
 
 const swaggerDefinition: OAS3Definition = {
     openapi: '3.0.3',
@@ -55,9 +55,27 @@ const swaggerDefinition: OAS3Definition = {
                     }
                 }
             },
+            userLogin: {
+                type: 'object',
+                required: ['email', 'password'],
+                properties: {
+                    email: {
+                        type: 'string',
+                        description: 'Email of the user'
+                    },
+                    password: {
+                        type: 'string',
+                        format: 'password',
+                        description: 'Password of the user'
+                    }
+                }
+            },
             userCreated: {
                 type: 'object',
                 properties: {
+                    ok: {
+                      type: 'boolean'
+                    },
                     token: {
                         type: 'string',
                         format: 'jwt'
@@ -199,6 +217,7 @@ const swaggerDefinition: OAS3Definition = {
             userBasicCreated: {
                 summary: 'User basic created',
                 value: {
+                    'ok': true,
                     'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDQ0YzMwNGJhNTU2YmU3MzQ4MGE1ZiIsImlhdCI6MTY5MTYzNDczNiwiZXhwIjoxNjkxNjQxOTM2fQ.NaF7C3ak9iU68ohLWbXrN4Xgi3MDzmnMe0L9p_Wh2aQ',
                     'user': {
                         'name': 'basic',
@@ -217,6 +236,7 @@ const swaggerDefinition: OAS3Definition = {
             userWithDescription: {
                 summary: 'User with description',
                 value: {
+                    'ok':true,
                     'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDQ0YzZkNGJhNTU2YmU3MzQ4MGE2MyIsImlhdCI6MTY5MTYzNDc5NywiZXhwIjoxNjkxNjQxOTk3fQ.OavdkD-iXOjSQCAsLsesMEEnMvyeHbRF2dnPoOIw2Pg',
                     'user': {
                         'name': 'basic + description',
@@ -235,6 +255,7 @@ const swaggerDefinition: OAS3Definition = {
             userWithRole: {
                 summary: 'User with role',
                 value: {
+                    'ok':true,
                     'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDQ0Y2M1NGJhNTU2YmU3MzQ4MGE2NyIsImlhdCI6MTY5MTYzNDg4NSwiZXhwIjoxNjkxNjQyMDg1fQ.XdQ6-hyZP_Lo-fzm6aAngyhtM5VQ6RGxkLaKuqXVE4Q',
                     'user': {
                         'name': 'user with role customer',
@@ -257,19 +278,19 @@ const swaggerDefinition: OAS3Definition = {
                     'errors': {
                         'name': {
                             'type': 'field',
-                            'msg': 'The name is required',
+                            'msg': MessageErrorsEnum.NameIsRequired,
                             'path': 'name',
                             'location': 'body'
                         },
                         'password': {
                             'type': 'field',
-                            'msg': 'The password is required',
+                            'msg': MessageErrorsEnum.PasswordIsRequired,
                             'path': 'password',
                             'location': 'body'
                         },
                         'email': {
                             'type': 'field',
-                            'msg': 'The email is required',
+                            'msg': MessageErrorsEnum.EmailIsRequired,
                             'path': 'email',
                             'location': 'body'
                         },
@@ -278,7 +299,7 @@ const swaggerDefinition: OAS3Definition = {
                             'value': [
                                 '64d4464d4ba556be73480a5ac'
                             ],
-                            'msg': 'Invalid ObjectId',
+                            'msg': MessageErrorsEnum.InvalidObjectId,
                             'path': 'role',
                             'location': 'body'
                         }
@@ -293,7 +314,7 @@ const swaggerDefinition: OAS3Definition = {
                         'email': {
                             'type': 'field',
                             'value': 'testinggoogle.com',
-                            'msg': 'The email not valid format',
+                            'msg': MessageErrorsEnum.EmailNotFormatValid,
                             'path': 'email',
                             'location': 'body'
                         }
@@ -304,7 +325,129 @@ const swaggerDefinition: OAS3Definition = {
                 summary: 'User already exists',
                 value: {
                     'ok': false,
-                    'msg': MessageErrorsEnum.userAlReadyExist
+                    'msg': MessageErrorsEnum.UserAlReadyExist
+                }
+            },
+            userAdmin: {
+                summary: 'User admin',
+                value: {
+                    'email': 'example@google.com',
+                    'password': '123456'
+                }
+            },
+            userTest: {
+                summary: 'User test',
+                value: {
+                    'email': 'test@google.com',
+                    'password': '123456'
+                }
+            },
+            failedEmail: {
+                summary: 'Failed email user not found',
+                value: {
+                    'email': '1example@google.com',
+                    'password': '123456'
+                }
+            },
+            failedPassword: {
+                summary: 'Failed password user not correct',
+                value: {
+                    'email': 'example@google.com',
+                    'password': '1234561'
+                }
+            },
+            userLoginFieldFailed: {
+                summary: 'user without properties',
+                value: {}
+            },
+            userLoginEmailFailed: {
+                summary: 'user with email not correct',
+                value: {
+                    'email': 'emailgoogle.com',
+                    'password': '1234567'
+                }
+            },
+            userAdminResponse: {
+              summary: 'user admin login',
+              value: {
+                  'ok': true,
+                  'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Y2M1Y2EwZDVmM2JjZjc0MTAzNzFkYiIsImlhdCI6MTY5MTYzODA5NiwiZXhwIjoxNjkxNjQ1Mjk2fQ.Hes_cfriNS1OdawU7E1BX0kl1wqwdjZ87CjTpP4owJg',
+                  'user': {
+                      'name': 'example',
+                      'email': 'example@google.com',
+                      'password': '$2a$08$GbYgQspo4HkZRSTo3foPS.fqppJJgdYw0Li3tNWWbv2jjmZj026lO',
+                      'description': 'New description',
+                      'role': [
+                          '64cbd63ea0ebec5e5af4f5bf',
+                          '64cbd66da0ebec5e5af4f5c3',
+                          '64cbd74fa0ebec5e5af4f5c9'
+                      ],
+                      'createdAt': '2023-08-04T02:04:16.351Z',
+                      'updatedAt': '2023-08-07T03:19:52.256Z',
+                      'id': '64cc5ca0d5f3bcf7410371db'
+                  }
+              }
+            },
+            userTestResponse: {
+                summary: 'User test login',
+                value: {
+                    'ok': true,
+                    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDA1M2EzMWUzYmU0NjY2MmE2OTU0YSIsImlhdCI6MTY5MTYzOTA1MywiZXhwIjoxNjkxNjQ2MjUzfQ.ue_D-reYwhYM9VKy0O4ldG7nNEHs599RaZWJ3R92u5Y',
+                    'user': {
+                        'name': 'test',
+                        'email': 'test@google.com',
+                        'password': '$2a$08$f0xackA2CInRBK2aKXDgBu1WvjdBj55A3noCc.H.jhBlDKshPawVu',
+                        'description': 'New description',
+                        'role': [
+                            '64cbd75fa0ebec5e5af4f5cb',
+                            '64cbd74fa0ebec5e5af4f5c9'
+                        ],
+                        'createdAt': '2023-08-07T02:14:59.850Z',
+                        'updatedAt': '2023-08-08T18:19:34.473Z',
+                        'id': '64d053a31e3be46662a6954a'
+                    }
+                }
+            },
+            userLoginErrorField: {
+                summary: 'Errors in field',
+                value: {
+                    'ok': false,
+                    'errors': {
+                        'email': {
+                            'type': 'field',
+                            'msg': MessageErrorsEnum.EmailIsRequired,
+                            'path': 'email',
+                            'location': 'body'
+                        },
+                        'password': {
+                            'type': 'field',
+                            'msg': MessageErrorsEnum.PasswordIsRequired,
+                            'path': 'password',
+                            'location': 'body'
+                        }
+                    }
+                }
+            },
+            userLoginErrorEmail: {
+                summary: 'Error in field format email',
+                value: {
+                    'ok': false,
+                    'errors': {
+                        'email': {
+                            'type': 'field',
+                            'value': 'emailgoogle.com',
+                            'msg': MessageErrorsEnum.EmailNotFormatValid,
+                            'path': 'email',
+                            'location': 'body'
+                        }
+                    }
+                }
+            },
+            userFailedEmailOrPassword: {
+                summary: 'Error in the email or password',
+                value: {
+                    'ok': false,
+                    'msg': MessageErrorsEnum.EmailOrPasswordIncorrect
                 }
             }
         }
