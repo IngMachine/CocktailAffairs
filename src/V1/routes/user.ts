@@ -11,6 +11,7 @@ import {
 import {checkJWT, checkRolPermit} from "../../middleware/session";
 import {fieldsValidators} from "../../middleware/fields-validators";
 import {RoleEnum} from "../../constant/role";
+import {MessageErrorsEnum} from "../../constant/messageOfErrors";
 
 const router =  Router();
 
@@ -26,6 +27,13 @@ router.use(
  */
 router.get(
     '/:id',
+    [
+        param(':id', MessageErrorsEnum.IdIsRequired)
+            .not()
+            .notEmpty()
+            .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId),
+        fieldsValidators
+    ],
     getUserController
 )
 
@@ -35,13 +43,15 @@ router.get(
 router.put(
     '/:id',
     [
-        param(':id', 'The id is required')
+        param(':id', MessageErrorsEnum.IdIsRequired)
             .not()
             .notEmpty()
-            .isMongoId().withMessage('The id is invalid'),
-        check('name', 'Name is required').not().notEmpty()
-            .isLength({min: 3}).withMessage('Name is too short'),
-        check('description', 'Description is too short').isLength({ min: 6}),
+            .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId),
+        check('name', MessageErrorsEnum.NameIsRequired)
+            .not()
+            .notEmpty()
+            .isLength({min: 3}).withMessage(MessageErrorsEnum.NameIsTooShort),
+        check('description', MessageErrorsEnum.DescriptionIsTooShort).isLength({ min: 6}),
         fieldsValidators
     ],
     updateUserController
@@ -62,10 +72,10 @@ router.get(
 router.delete(
     '/:id',
     [
-        param(':id', 'The id is required')
+        param(':id', MessageErrorsEnum.IdIsRequired)
             .not()
             .notEmpty()
-            .isMongoId().withMessage('The id is invalid'),
+            .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId),
         fieldsValidators
     ],
     deleteUserController

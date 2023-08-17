@@ -3,9 +3,12 @@ export enum MessageErrorsEnum {
     UserAlReadyExist = 'User already exists',
     EmailOrPasswordIncorrect = 'The provided credentials are invalid. Please check your email and password and try again.',
     NameIsRequired = 'The name is required.',
+    NameIsTooShort = 'The name is too short',
+    DescriptionIsTooShort = 'The description is too short',
     PasswordIsRequired = 'The password is required',
     EmailIsRequired = 'The email is required',
     EmailNotFormatValid = 'The email not valid format',
     InvalidObjectId = 'Invalid ObjectId',
-    PasswordMinimumLength = 'The password is minimum the 6 characters'
+    PasswordMinimumLength = 'The password is minimum the 6 characters',
+    IdIsRequired = 'The id is required'
 }
