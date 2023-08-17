@@ -10,7 +10,7 @@ const createUserService = async ({ email, password, name, description, role }: U
     const passwordHash = await encrypt(password);
     if( checkIs ) return {
         ok: false,
-        msg: MessageErrorsEnum.userAlReadyExist
+        msg: MessageErrorsEnum.UserAlReadyExist
     };
 
     try {

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 export const isMongoIdOfArrayOptionalValidator = (values: string[]) => {
     if (!values || values.length === 0) {
@@ -8,7 +9,7 @@ export const isMongoIdOfArrayOptionalValidator = (values: string[]) => {
     // Check if each value is a valid MongoDB ObjectId
     for (const role of values) {
         if (!mongoose.Types.ObjectId.isValid(role)) {
-            throw new Error('Invalid ObjectId');
+            throw new Error(MessageErrorsEnum.InvalidObjectId);
         }
     }
 
@@ -22,7 +23,7 @@ export const isMongoIdOptionalValidator = (value: string) => {
 
 
     if (!mongoose.Types.ObjectId.isValid(value)) {
-        throw new Error('Invalid ObjectId');
+        throw new Error(MessageErrorsEnum.InvalidObjectId);
     }
 
     return true; // All roles are valid ObjectIds
