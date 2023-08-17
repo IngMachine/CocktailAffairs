@@ -10,6 +10,7 @@ import {
 
 import {handleHttp} from "../utils/error.handle";
 import {RequestExt} from "../interfaces/req-ext.interface";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 
 const getUsersController = async(req: Request, res: Response) => {
@@ -31,7 +32,7 @@ const getUserController = async({params, user}: RequestExt, res: Response) => {
         } else {
             return res.status(401).json({
                 ok: false,
-                msg: 'The user lacks the necessary permissions or isn\'t authenticated.'
+                msg: MessageErrorsEnum.UserNotPermitted
             });
         }
     } catch (err) {
