@@ -58,7 +58,7 @@ const updateUserController = async({params, body, user}: RequestExt, res: Respon
             } else {
                 return res.status(401).json({
                     ok: false,
-                    msg: 'The user lacks the necessary permissions or isn\'t authenticated.'
+                    msg: MessageErrorsEnum.UserNotPermitted
                 });
             }
         }

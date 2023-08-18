@@ -94,12 +94,65 @@ router.get(
 )
 
 /**
- * http://localhost:3002/user/:id [PUT]
+ * @openapi
+ * /api/user/{id}:
+ *     put:
+ *         parameters:
+ *         - name: id
+ *           in: path
+ *           description:  The id of the user
+ *           required: true
+ *           type: string
+ *           format: mongo-id
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - users
+ *         summary: Update user by id
+ *         description: You can only update it yourself or an administrator,
+ *                      you can not change the email, password or role when you are not an administrator.
+ *         responses:
+ *             '200':
+ *                 description: update information the user successfully
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/userView'
+ *                         examples:
+ *                             userTest:
+ *                                 $ref: '#/components/examples/userViewResponse'
+ *             '400':
+ *                 description: Errors occurred creating user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorsField'
+ *                         examples:
+ *                             userViewErrorId:
+ *                                 $ref: '#/components/examples/userUpdateErrorId'
+ *             '401':
+ *                 description: Not authorized for update the user by id
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
  */
 router.put(
     '/:id',
     [
-        param(':id', MessageErrorsEnum.IdIsRequired)
+        param('id', MessageErrorsEnum.IdIsRequired)
             .not()
             .notEmpty()
             .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId),
@@ -107,7 +160,8 @@ router.put(
             .not()
             .notEmpty()
             .isLength({min: 3}).withMessage(MessageErrorsEnum.NameIsTooShort),
-        check('description', MessageErrorsEnum.DescriptionIsTooShort).isLength({ min: 6}),
+        check('description', MessageErrorsEnum.DescriptionIsTooShort)
+            .isLength({ min: 6}),
         fieldsValidators
     ],
     updateUserController

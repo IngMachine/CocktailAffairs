@@ -527,6 +527,32 @@ const swaggerDefinition: OAS3Definition = {
                     }
                 }
             },
+            userUpdateErrorId: {
+                summary: 'Error in fields of updates',
+                value: {
+                    "ok": false,
+                    "errors": {
+                        ":id": {
+                            "type": "field",
+                            "msg": MessageErrorsEnum.InvalidObjectId,
+                            "path": "id",
+                            "location": "params"
+                        },
+                        "name": {
+                            "type": "field",
+                            "msg": MessageErrorsEnum.NameIsRequired,
+                            "path": "name",
+                            "location": "body"
+                        },
+                        "description": {
+                            "type": "field",
+                            "msg": MessageErrorsEnum.DescriptionIsTooShort,
+                            "path": "description",
+                            "location": "body"
+                        }
+                    }
+                }
+            },
             errorAuthorizationResponse: {
                 summary: 'error in authorization',
                 value: {
