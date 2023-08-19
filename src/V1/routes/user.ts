@@ -168,8 +168,45 @@ router.put(
 );
 
 router.use( checkRolPermit([RoleEnum.Admin]))
+
 /**
- * http://localhost:3002/user/ [GET]
+ * @openapi
+ * /api/user/:
+ *     get:
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - users (admin)
+ *         summary: Get users registered in the application
+ *         description: We obtain all the users registered in the application but only for the admin role.
+ *         responses:
+ *             '200':
+ *                 description: Get users registered in the application
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/listUsers'
+ *                         examples:
+ *                             userTest:
+ *                                 $ref: '#/components/examples/listUsersResponse'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
+ *             '409':
+ *                 description: Not authorized for update the user by id
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
  */
 router.get(
     '/',

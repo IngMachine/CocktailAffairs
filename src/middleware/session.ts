@@ -53,7 +53,7 @@ const checkRolPermit = (roles: string[]) => async(req: RequestExt, res: Response
         } else {
             res.status(409).json({
                 ok: false,
-                msg: 'No permissions'
+                msg: MessageErrorsEnum.UserNotPermitted
             })
         }
     } catch (err) {
