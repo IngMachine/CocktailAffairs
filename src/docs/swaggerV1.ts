@@ -231,6 +231,50 @@ const swaggerDefinition: OAS3Definition = {
                     }
                 }
 
+            },
+            deleteUser: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string'
+                    },
+                    email: {
+                        type: 'string'
+                    },
+                    password: {
+                        type: 'string'
+                    },
+                    description: {
+                        type: 'string'
+                    },
+                    role: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                _id: {
+                                    type: 'string',
+                                    format: 'mongo-id'
+                                },
+                                name: {
+                                    type: 'string'
+                                }
+                            }
+                        }
+                    },
+                    createdAt: {
+                        type: 'string',
+                        format: 'date-time'
+                    },
+                    updatedAt: {
+                        type: 'string',
+                        format: 'date-time'
+                    },
+                    id: {
+                        type: 'string',
+                        format: 'mongo-id'
+                    }
+                }
             }
         },
         examples: {
@@ -638,6 +682,42 @@ const swaggerDefinition: OAS3Definition = {
                         ]
                     }
                 ]
+            },
+            deleteUserResponse: {
+                summary: 'Delete a user successfully',
+                value: {
+                    "name": "Example Customer y Visitor",
+                    "email": "exampleVisitor@google.com",
+                    "password": "$2a$08$HRX610eY9RZ70rA4Rs29ou4nq7rRAlR5OEjIbGnHfh4OKJTTlHD2y",
+                    "description": "update description customer and visitor",
+                    "role": [
+                        "64cbd75fa0ebec5e5af4f5cb"
+                    ],
+                    "createdAt": "2023-08-10T00:01:36.493Z",
+                    "updatedAt": "2023-08-10T00:02:02.287Z",
+                    "id": "64d428e071fc85bedefc33b6"
+                }
+            },
+            userErrorInIdParam: {
+                summary: 'Error in id param',
+                value: {
+                    "ok": false,
+                    "errors": {
+                        ":id": {
+                            "type": "field",
+                            "msg": "Invalid ObjectId",
+                            "path": "id",
+                            "location": "params"
+                        }
+                    }
+                }
+            },
+            useNotFound: {
+                summary: 'User does not exist',
+                value: {
+                    ok: false,
+                    msg: MessageErrorsEnum.UserNotFound
+                }
             }
         }
     }

@@ -171,7 +171,7 @@ router.use( checkRolPermit([RoleEnum.Admin]))
 
 /**
  * @openapi
- * /api/user/:
+ * /api/user:
  *     get:
  *         security:
  *         - bearerAuth: []
@@ -199,7 +199,7 @@ router.use( checkRolPermit([RoleEnum.Admin]))
  *                             userNoSession:
  *                                 $ref: '#/components/examples/userNoSession'
  *             '409':
- *                 description: Not authorized for update the user by id
+ *                 description: Not authorized for get the users
  *                 content:
  *                     application/json:
  *                         schema:
@@ -214,7 +214,78 @@ router.get(
 );
 
 /**
- * http://localhost:3002/auth/login [DELETE]
+ * @openapi
+ * /api/user/{id}:
+ *     delete:
+ *         parameters:
+ *         - name: id
+ *           in: path
+ *           description:  The id of the user
+ *           required: true
+ *           type: string
+ *           format: mongo-id
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - users (admin)
+ *         summary: Delete user by id
+ *         description: You can only delete a user if you have the administrator role.
+ *                      <br/>If the user to be deleted also has the administrator role, he/she will not be allowed to delete.
+ *         responses:
+ *             '200':
+ *                 description: Delete a user successfully
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/deleteUser'
+ *                         examples:
+ *                             deleteUser:
+ *                                 $ref: '#/components/examples/deleteUserResponse'
+ *             '400':
+ *                 description: Errors occurred deleting to user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorsField'
+ *                         examples:
+ *                             userErrorInIdParam:
+ *                                 $ref: '#/components/examples/userErrorInIdParam'
+ *             '401':
+ *                 description: Not authorized for delete the user by id
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
+ *             '404':
+ *                 description: User not found for deleting
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/useNotFound'
+ *             '409':
+ *                 description: Not authorized for delete a user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/errorResponse'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
  */
 router.delete(
     '/:id',
