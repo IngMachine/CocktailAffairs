@@ -73,7 +73,7 @@ const deleteUserController = async({params}: Request, res: Response) => {
         if ( await getIsAdminByIdUserService(id) ){
             return res.status(401).json({
                 ok: false,
-                msg: 'The user you are trying to delete is an administrator.'
+                msg: MessageErrorsEnum.UserNotPermitted
             });
         } else {
             const responseUser = await deleteUserService(id);
@@ -82,7 +82,7 @@ const deleteUserController = async({params}: Request, res: Response) => {
             } else {
                 return res.status(404).json({
                     ok: false,
-                    msg: "User not found"
+                    msg: MessageErrorsEnum.UserNotFound
                 })
             }
         }
