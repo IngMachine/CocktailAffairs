@@ -12,5 +12,7 @@ export enum MessageErrorsEnum {
     PasswordMinimumLength = 'The password is minimum the 6 characters',
     IdIsRequired = 'The id is required',
     SessionNoValid = 'The session is not valid',
-    UserNotPermitted = 'The user lacks the necessary permissions'
+    UserNotPermitted = 'The user lacks the necessary permissions',
+    UserNotFound = 'The user not found',
+    TalkWithAdministrator = 'Talk with administration - Auth not permitted'
 }
