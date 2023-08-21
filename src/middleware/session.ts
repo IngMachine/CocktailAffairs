@@ -59,7 +59,7 @@ const checkRolPermit = (roles: string[]) => async(req: RequestExt, res: Response
     } catch (err) {
         res.status(500).json({
             ok: false,
-            msg: 'Talk with administration - Auth permit'
+            msg: MessageErrorsEnum.TalkWithAdministrator
         })
     }
 }
