@@ -36,7 +36,8 @@ router.use(
  *         security:
  *         - bearerAuth: []
  *         tags:
- *           - users
+ *          - Authentication and User Profile
+ *               - Users
  *         summary: Get user by id
  *         description: This endpoint allows administrators and users with visitor roles to retrieve
  *                      detailed information about a specific user based on their ID.
@@ -49,7 +50,7 @@ router.use(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/userView'
+ *                             $ref: '#/components/schemas/User View'
  *                         examples:
  *                             userTest:
  *                                 $ref: '#/components/examples/userViewResponse'
@@ -58,7 +59,7 @@ router.use(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorsField'
+ *                             $ref: '#/components/schemas/Errors Field'
  *                         examples:
  *                             userViewErrorId:
  *                                 $ref: '#/components/examples/userViewErrorId'
@@ -67,7 +68,7 @@ router.use(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNotAuthorized:
  *                                 $ref: '#/components/examples/errorAuthorizationResponse'
@@ -76,7 +77,7 @@ router.use(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNoSession:
  *                                 $ref: '#/components/examples/userNoSession'
@@ -107,7 +108,8 @@ router.get(
  *         security:
  *         - bearerAuth: []
  *         tags:
- *           - users
+ *          - Authentication and User Profile
+ *               - Users
  *         summary: Update user by id
  *         description: You can only update it yourself or an administrator,
  *                      you can not change the email, password or role when you are not an administrator.
@@ -117,7 +119,7 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/userView'
+ *                             $ref: '#/components/schemas/User View'
  *                         examples:
  *                             userTest:
  *                                 $ref: '#/components/examples/userViewResponse'
@@ -126,7 +128,7 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorsField'
+ *                             $ref: '#/components/schemas/Errors Field'
  *                         examples:
  *                             userViewErrorId:
  *                                 $ref: '#/components/examples/userUpdateErrorId'
@@ -135,7 +137,7 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNotAuthorized:
  *                                 $ref: '#/components/examples/errorAuthorizationResponse'
@@ -144,7 +146,7 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNoSession:
  *                                 $ref: '#/components/examples/userNoSession'
@@ -156,12 +158,12 @@ router.put(
             .not()
             .notEmpty()
             .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId),
-        check('name', MessageErrorsEnum.NameIsRequired)
-            .not()
-            .notEmpty()
+        check('name')
+            .optional()
             .isLength({min: 3}).withMessage(MessageErrorsEnum.NameIsTooShort),
-        check('description', MessageErrorsEnum.DescriptionIsTooShort)
-            .isLength({ min: 6}),
+        check('description')
+            .optional()
+            .isLength({ min: 6}).withMessage(MessageErrorsEnum.DescriptionIsTooShort),
         fieldsValidators
     ],
     updateUserController
@@ -176,7 +178,8 @@ router.use( checkRolPermit([RoleEnum.Admin]))
  *         security:
  *         - bearerAuth: []
  *         tags:
- *           - users (admin)
+ *           - Authentication and User Profile
+ *               - Users (Admin)
  *         summary: Get users registered in the application
  *         description: We obtain all the users registered in the application but only for the admin role.
  *         responses:
@@ -185,7 +188,7 @@ router.use( checkRolPermit([RoleEnum.Admin]))
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/listUsers'
+ *                             $ref: '#/components/schemas/List Users'
  *                         examples:
  *                             userTest:
  *                                 $ref: '#/components/examples/listUsersResponse'
@@ -194,7 +197,7 @@ router.use( checkRolPermit([RoleEnum.Admin]))
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNoSession:
  *                                 $ref: '#/components/examples/userNoSession'
@@ -203,7 +206,7 @@ router.use( checkRolPermit([RoleEnum.Admin]))
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNotAuthorized:
  *                                 $ref: '#/components/examples/errorAuthorizationResponse'
@@ -227,17 +230,19 @@ router.get(
  *         security:
  *         - bearerAuth: []
  *         tags:
- *           - users (admin)
+ *          - Authentication and User Profile
+ *               - Users (Admin)
  *         summary: Delete user by id
  *         description: You can only delete a user if you have the administrator role.
- *                      <br/>If the user to be deleted also has the administrator role, he/she will not be allowed to delete.
+ *                      <br/>If the user to be deleted also has the administrator role,
+ *                      he/she will not be allowed to delete.
  *         responses:
  *             '200':
  *                 description: Delete a user successfully
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/deleteUser'
+ *                             $ref: '#/components/schemas/Delete User'
  *                         examples:
  *                             deleteUser:
  *                                 $ref: '#/components/examples/deleteUserResponse'
@@ -246,16 +251,16 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorsField'
+ *                             $ref: '#/components/schemas/Errors Field'
  *                         examples:
  *                             userErrorInIdParam:
- *                                 $ref: '#/components/examples/userErrorInIdParam'
+ *                                 $ref: '#/components/examples/errorInIdParam'
  *             '401':
  *                 description: Not authorized for delete the user by id
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNotAuthorized:
  *                                 $ref: '#/components/examples/errorAuthorizationResponse'
@@ -264,7 +269,7 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNoSession:
  *                                 $ref: '#/components/examples/userNoSession'
@@ -273,16 +278,16 @@ router.get(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNoSession:
- *                                 $ref: '#/components/examples/useNotFound'
+ *                                 $ref: '#/components/examples/userNotFound'
  *             '409':
  *                 description: Not authorized for delete a user
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userNotAuthorized:
  *                                 $ref: '#/components/examples/errorAuthorizationResponse'

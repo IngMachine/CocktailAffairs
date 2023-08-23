@@ -18,7 +18,8 @@ const router =  Router();
  * /api/auth/register:
  *     post:
  *         tags:
- *           - users
+ *          - Authentication and User Profile
+ *               - Users
  *         summary: Register a new user
  *         description: This endpoint enables new users to create an account in the CocktailAffray system.
  *                      Users can provide their registration details, such as their name, email, and chosen password.
@@ -28,7 +29,7 @@ const router =  Router();
  *             content:
  *                 application/json:
  *                     schema:
- *                         $ref: '#/components/schemas/user'
+ *                         $ref: '#/components/schemas/User'
  *                     examples:
  *                         userBasic:
  *                             $ref: '#/components/examples/createUserBasic'
@@ -48,7 +49,7 @@ const router =  Router();
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/userCreated'
+ *                             $ref: '#/components/schemas/User Created'
  *                         examples:
  *                             userBasic:
  *                                 $ref: '#/components/examples/userBasicCreated'
@@ -61,7 +62,7 @@ const router =  Router();
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorsField'
+ *                             $ref: '#/components/schemas/Errors Field'
  *                         examples:
  *                             userErrorsInField:
  *                                 $ref: '#/components/examples/userErrorsInFieldResponse'
@@ -72,7 +73,7 @@ const router =  Router();
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             userAlreadyExistsResponse:
  *                                 $ref: '#/components/examples/userAlreadyExistsResponse'
@@ -103,7 +104,8 @@ router.post(
  * /api/auth/login:
  *     post:
  *         tags:
- *           - users
+ *          - Authentication and User Profile
+ *               - Users
  *         summary: Login a user
  *         description: With this endpoint, registered users can log into their CocktailAffray accounts.
  *                      By submitting their email and password, users can obtain an access token.
@@ -112,7 +114,7 @@ router.post(
  *             content:
  *                 application/json:
  *                     schema:
- *                         $ref: '#/components/schemas/userLogin'
+ *                         $ref: '#/components/schemas/User Login'
  *                     examples:
  *                         userAdmin:
  *                             $ref: '#/components/examples/userAdmin'
@@ -132,7 +134,7 @@ router.post(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/userCreated'
+ *                             $ref: '#/components/schemas/User Created'
  *                         examples:
  *                             userAdmin:
  *                                 $ref: '#/components/examples/userAdminResponse'
@@ -143,7 +145,7 @@ router.post(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorsField'
+ *                             $ref: '#/components/schemas/Errors Field'
  *                         examples:
  *                             userLoginErrorField:
  *                                 $ref: '#/components/examples/userLoginErrorField'
@@ -154,7 +156,7 @@ router.post(
  *                 content:
  *                     application/json:
  *                         schema:
- *                             $ref: '#/components/schemas/errorResponse'
+ *                             $ref: '#/components/schemas/Error Response'
  *                         examples:
  *                             failedEmailOrPassword:
  *                                 $ref: '#/components/examples/userFailedEmailOrPassword'
