@@ -33,6 +33,54 @@ export const errorsGeneralSchema: Components = {
             }
         }
     },
+    'Errors Field JOI': {
+        type: 'object',
+        properties: {
+            ok: {
+                type: 'boolean',
+                default: false
+            },
+            errors: {
+                type: 'object',
+                properties: {
+                    _original: {
+                        type: 'object',
+                        properties: {
+                            nameField: { type: 'string' }
+                        }
+                    },
+                    details: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                message: { type: 'string' },
+                                path: {
+                                    type: 'array',
+                                    items: {
+                                        type: 'object',
+                                        properties: {
+                                            name: { type: 'string' }
+                                        }
+                                    }
+                                },
+                                type: { type: 'string' },
+                                context: {
+                                    type: 'object',
+                                    properties: {
+                                        label: { type: 'string'},
+                                        value: { type: 'string'},
+                                        key: { type: 'string' }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    },
     'Error Response': {
         type: 'object',
         properties: {
