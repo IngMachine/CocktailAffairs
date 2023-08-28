@@ -10,6 +10,7 @@ import {
 
 import {handleHttp} from "../utils/error.handle";
 import {RequestExt} from "../interfaces/req-ext.interface";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 const getCocktailsController = async (req: Request, res: Response) => {
     try {
@@ -68,7 +69,7 @@ const deleteCocktailController = async ({params}: Request, res: Response) => {
         } else {
             return res.status(404).json({
                 ok: false,
-                msg: 'Cocktail not found'
+                msg: MessageErrorsEnum.CocktailNotFound
             })
         }
     } catch (err) {

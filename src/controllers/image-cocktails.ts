@@ -12,7 +12,6 @@ import {
 
 import {capitalizeWords} from "../utils/words";
 import {MessageErrorsEnum} from "../constant/messageOfErrors";
-import mongoose from "mongoose";
 
 const getImagesCocktailsController = async (req: Request, res: Response) => {
     try {

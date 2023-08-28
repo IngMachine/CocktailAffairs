@@ -1,4 +1,3 @@
-// TODO Faltan validaciones en este archivo por las imagenes
 import {Router} from "express";
 
 import {checkJWT, checkRolPermit} from "../../middleware/session";

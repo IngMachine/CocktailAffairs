@@ -18,5 +18,15 @@ export enum MessageErrorsEnum {
     AImageExistWithSameName = 'A image exists with this name',
     NoImageAdd = 'No image added',
     NoImageOrNameForUpdate = 'No image or name for updated',
-    ImageNotExistWithThatId = 'A image no exists with this id'
+    ImageNotExistWithThatId = 'A image no exists with this id',
+    NameCocktailRequired = 'The name of the cocktail is required',
+    DescriptionCocktailRequired = 'The description of the cocktail is required',
+    PreparationRequired = 'The preparation is required',
+    IngredientMinimumOne = 'At least one ingredient must be added',
+    IsAlcoholicRequired = 'Is alcoholic is required ',
+    IsTypeBoolean = 'The type is boolean',
+    IsTypeNumeric = 'The type is numeric',
+    PriceIsRequired = 'The price is required',
+    IdImageCocktailRequired = 'The id of the image is required',
+    CocktailNotFound = 'Cocktail not found'
 }
