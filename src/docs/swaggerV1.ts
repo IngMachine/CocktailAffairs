@@ -2,6 +2,7 @@ import swaggerJsDocs, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
 import {userExamples, userSchemas} from "./user";
 import {errorsGeneralExample, errorsGeneralSchema} from "./errorsGeneral";
 import {rolesExamples, rolesSchemas} from "./roles";
+import {imageCocktailsSchema, imagesCocktailsExamples} from "./image-cocktails";
 
 const swaggerDefinition: OAS3Definition = {
     openapi: '3.0.3',
@@ -29,11 +30,13 @@ const swaggerDefinition: OAS3Definition = {
         schemas: {
             ...userSchemas,
             ...rolesSchemas,
+            ...imageCocktailsSchema,
             ...errorsGeneralSchema
         },
         examples: {
             ...userExamples,
             ...rolesExamples,
+            ...imagesCocktailsExamples,
             ...errorsGeneralExample
         }
     }

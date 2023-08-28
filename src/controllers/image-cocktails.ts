@@ -1,4 +1,6 @@
 import {Request, Response} from "express";
+import * as Joi from "joi";
+
 import {handleHttp} from "../utils/error.handle";
 
 import {
@@ -7,7 +9,10 @@ import {
     updateImageCocktailService,
     deleteImageCocktailService
 } from "../services/image-cocktails";
+
 import {capitalizeWords} from "../utils/words";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
+import mongoose from "mongoose";
 
 const getImagesCocktailsController = async (req: Request, res: Response) => {
     try {
@@ -20,19 +25,28 @@ const getImagesCocktailsController = async (req: Request, res: Response) => {
 
 const uploadImageCocktailController = async ({body, files}: Request, res: Response) => {
     try {
-        // @ts-ignore
+        const schema = Joi.object({
+            name: Joi.string().min(5).required()
+        });
+        const data = await schema.validate(body);
+        if (data.error) {
+            return res.status(400).json({
+                ok: false,
+                errors: data.error
+            });
+        }
         if(files?.image) {
             body.name = capitalizeWords(body.name);
             const responseImage = await insertImageCocktailService( files , body );
             if (responseImage.ok){
                 return res.status(201).json(responseImage);
             } else {
-                return res.status(400).json(responseImage);
+                return res.status(400).json({responseImage});
             }
         } else {
             return res.status(400).json({
                 ok: false,
-                msg: 'No image added'
+                msg: MessageErrorsEnum.NoImageAdd
             })
         }
     } catch (err) {
@@ -43,14 +57,53 @@ const uploadImageCocktailController = async ({body, files}: Request, res: Respon
 const updateImageCocktailController = async ({body, files, params}: Request, res: Response) => {
     try {
         const { id } = params;
-        if(files?.image) {
-            body.name = capitalizeWords(body.name);
-            const responseImage = await updateImageCocktailService( files , body, id );
-            res.status(201).json(responseImage)
-        } else {
+
+        const schema = Joi.object({
+            name: Joi.string().min(5).required()
+        });
+
+        if(files?.image && body.name) {
+            const data = await schema.validate(body);
+            if (data.error) {
+                return res.status(400).json({
+                    ok: false,
+                    errors: data.error
+                });
+            }
+            const responseImage = await updateImageCocktailService( body, id, files );
+            if(responseImage.ok) {
+                return res.status(200).json(responseImage)
+            } else {
+                return res.status(400).json(responseImage);
+            }
+        }
+        else if(files?.image){
+            const responseImage = await updateImageCocktailService( body, id, files );
+            if(responseImage.ok) {
+                return res.status(200).json(responseImage)
+            } else {
+                return res.status(400).json(responseImage);
+            }
+        }
+        if(body.name){
+            const data = await schema.validate(body);
+            if (data.error) {
+                return res.status(400).json({
+                    ok: false,
+                    errors: data.error
+                });
+            }
+            const responseImage = await updateImageCocktailService( body, id );
+            if(responseImage.ok) {
+                return res.status(200).json(responseImage)
+            } else {
+                return res.status(400).json(responseImage);
+            }
+        }
+        else {
             return res.status(400).json({
                 ok: false,
-                msg: 'No image added to update'
+                msg: MessageErrorsEnum.NoImageOrNameForUpdate
             })
         }
     } catch (err) {
