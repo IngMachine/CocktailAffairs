@@ -14,5 +14,9 @@ export enum MessageErrorsEnum {
     SessionNoValid = 'The session is not valid',
     UserNotPermitted = 'The user lacks the necessary permissions',
     UserNotFound = 'The user not found',
-    TalkWithAdministrator = 'Talk with administration - Auth not permitted'
+    TalkWithAdministrator = 'Talk with administration - Auth not permitted',
+    AImageExistWithSameName = 'A image exists with this name',
+    NoImageAdd = 'No image added',
+    NoImageOrNameForUpdate = 'No image or name for updated',
+    ImageNotExistWithThatId = 'A image no exists with this id'
 }
