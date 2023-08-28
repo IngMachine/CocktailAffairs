@@ -20,7 +20,6 @@ const checkJWT = (req: RequestExt, res: Response, next: NextFunction) => {
             next()
         }
     } catch (err) {
-        console.log(err)
         res.status(403).json({
             ok: false,
             msg: MessageErrorsEnum.SessionNoValid
