@@ -12,6 +12,7 @@ import {checkJWT, checkRolPermit} from "../../middleware/session";
 
 import {RoleEnum} from "../../constant/role";
 import {fieldsValidators} from "../../middleware/fields-validators";
+import {MessageErrorsEnum} from "../../constant/messageOfErrors";
 
 const router =  Router();
 
@@ -134,10 +135,10 @@ router.get(
 router.post(
     '/',
     [
-        check('name', 'Name is required')
+        check('name', MessageErrorsEnum.NameIsRequired)
             .not()
             .notEmpty(),
-        check('description', 'Description too short')
+        check('description', MessageErrorsEnum.DescriptionIsTooShort)
             .isLength({min: 6}),
         fieldsValidators,
     ],
@@ -210,12 +211,12 @@ router.post(
 router.put(
     '/:id',
     [
-        param('id', 'The id is required')
+        param('id', MessageErrorsEnum.IdIsRequired)
             .not()
             .notEmpty()
-            .isMongoId().withMessage('The id is invalid')
+            .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId)
         ,
-        check('description', 'Description too short').isLength({min: 6}),
+        check('description', MessageErrorsEnum.DescriptionIsTooShort).isLength({min: 6}),
         fieldsValidators,
     ],
     updateRoleController
@@ -276,10 +277,10 @@ router.put(
 router.delete(
     '/:id',
     [
-        param('id', 'The id is required')
+        param('id', MessageErrorsEnum.IdIsRequired)
             .not()
             .notEmpty()
-            .isMongoId().withMessage('The id is invalid')
+            .isMongoId().withMessage(MessageErrorsEnum.InvalidObjectId)
         ,
         fieldsValidators,
     ],
