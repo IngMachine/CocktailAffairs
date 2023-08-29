@@ -27,6 +27,7 @@ const BartenderSchema = new Schema<Bartender>(
         },
         isAvailable: {
             type: Boolean,
+            default: true,
             required: true
         },
         imageUrl: {

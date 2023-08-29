@@ -19,6 +19,7 @@ import {
 } from "./user";
 
 import {addUnderScope} from "../utils/words";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 
 const getBartendersService = async () => {
@@ -105,7 +106,7 @@ const updateBartenderService = async (bartender: Bartender, files: any, id: stri
             } else {
                 result = {
                     secure_url: LinkImage.NoPhoto,
-                    public_id: 'no_image'
+                    public_id: FolderImage.NoImage
                 }
             }
 
@@ -116,17 +117,20 @@ const updateBartenderService = async (bartender: Bartender, files: any, id: stri
                 imageUrl: result.secure_url
             };
 
-            return await BartenderModel.findByIdAndUpdate(
-                id,
-                newBartender,
-                {
-                    new: true,
-                }
-            )
+            return {
+                ok: true,
+                msg: await BartenderModel.findByIdAndUpdate(
+                    id,
+                    newBartender,
+                    {
+                        new: true,
+                    }
+                )
+            }
         } else {
             return {
                 ok: false,
-                msg: 'The user not found'
+                msg: MessageErrorsEnum.UserNotFound
             }
         }
 

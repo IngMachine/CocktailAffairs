@@ -1,9 +1,11 @@
 import swaggerJsDocs, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
-import {userExamples, userSchemas} from "./user";
+
+import {bartenderExample, bartenderSchema} from "./bartender";
+import {cocktailsExample, cocktailsSchema} from "./cocktails";
+import {imageCocktailsSchema, imagesCocktailsExamples} from "./image-cocktails";
 import {errorsGeneralExample, errorsGeneralSchema} from "./errorsGeneral";
 import {rolesExamples, rolesSchemas} from "./roles";
-import {imageCocktailsSchema, imagesCocktailsExamples} from "./image-cocktails";
-import {cocktailsExample, cocktailsSchema} from "./cocktails";
+import {userExamples, userSchemas} from "./user";
 
 const swaggerDefinition: OAS3Definition = {
     openapi: '3.0.3',
@@ -29,6 +31,7 @@ const swaggerDefinition: OAS3Definition = {
             }
         },
         schemas: {
+            ...bartenderSchema,
             ...cocktailsSchema,
             ...imageCocktailsSchema,
             ...errorsGeneralSchema,
@@ -36,6 +39,7 @@ const swaggerDefinition: OAS3Definition = {
             ...userSchemas,
         },
         examples: {
+            ...bartenderExample,
             ...cocktailsExample,
             ...errorsGeneralExample,
             ...imagesCocktailsExamples,
