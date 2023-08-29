@@ -14,6 +14,7 @@ export enum MessageErrorsEnum {
     SessionNoValid = 'The session is not valid',
     UserNotPermitted = 'The user lacks the necessary permissions',
     UserNotFound = 'The user not found',
+    UserRequired = 'The user is required',
     TalkWithAdministrator = 'Talk with administration - Auth not permitted',
     AImageExistWithSameName = 'A image exists with this name',
     NoImageAdd = 'No image added',
@@ -32,5 +33,9 @@ export enum MessageErrorsEnum {
     NoAuthorizedForCreateBartender = 'No authorized for created a bartender',
     NoAuthorizedForUpdateBartender = 'No authorized for updated a bartender',
     NoAuthorizedForCreateBooking = 'No authorized for created a booking for this user',
-    BookingNotFound = 'Booking not found'
+    BookingNotFound = 'Booking not found',
+    PhoneNumberIsRequired = 'The phone number is required',
+    ShippingAddressIsRequired = 'The shipping address is required',
+    CustomerCreatedWithThisUser = 'The customer has been created with that user',
+    CustomerNotFound = 'Customer not found'
 }

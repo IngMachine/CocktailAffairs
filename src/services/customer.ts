@@ -2,6 +2,7 @@ import CustomerModel from "../models/customer";
 import {Customer} from "../interfaces/customer.interface";
 import {getUserService, updateRoleUserByIdService} from "./user";
 import {RoleEnum} from "../constant/role";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 const getCustomersService = async() => {
     try {
@@ -24,7 +25,7 @@ const createCustomerService = async ( customer: Customer ) => {
         } else {
             return {
                 ok: false,
-                msg: 'The customer has been created with that user'
+                msg: MessageErrorsEnum.CustomerCreatedWithThisUser
             }
         }
     } catch (err) {

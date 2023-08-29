@@ -302,7 +302,7 @@ router.get(
  *                             $ref: '#/components/schemas/Booking'
  *                         examples:
  *                             Booking:
- *                                 $ref: '#/components/examples/Booking Created
+ *                                 $ref: '#/components/examples/Booking Created'
  *             '400':
  *                 description: Errors occurred deleting a booking
  *                 content:

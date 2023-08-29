@@ -13,6 +13,7 @@ import {handleHttp} from "../utils/error.handle";
 
 import {Customer} from "../interfaces/customer.interface";
 import {getIsAdminByIdUserService} from "../services/user";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 
 const getCustomersControllers = async( req: Request, res: Response) => {
@@ -29,15 +30,14 @@ const getCustomerByIdUSerController = async ({params, user}: RequestExt, res: Re
         const { id } = params;
         const responseCustomer = await getCustomerByIdUserService(id);
         const customerDB = responseCustomer?.toObject();
-        // @ts-ignore
-        console.log()
+
         if( await getIsAdminByIdUserService(user?.id)) {
             if(responseCustomer){
-                return res.json(responseCustomer);
+                return res.status(200).json(responseCustomer);
             } else {
                 return res.status(404).json({
                     ok: false,
-                    msg: 'Customer not found'
+                    msg: MessageErrorsEnum.CustomerNotFound
                 })
             }
         } else {
@@ -45,9 +45,9 @@ const getCustomerByIdUSerController = async ({params, user}: RequestExt, res: Re
             if( customerDB?.user._id.toString() === user?.id ){
                 return res.json(responseCustomer);
             } else {
-                return res.status(401).json({
+                return res.status(409).json({
                     ok: false,
-                    msg: 'User no authorized to see the customer'
+                    msg: MessageErrorsEnum.UserNotPermitted
                 })
             }
         }
@@ -80,14 +80,14 @@ const createCustomerByIdUserController = async({body, params, user}: RequestExt,
         if ( idUser === user?.id ) {
             const responseBartender = await createCustomerService( customer );
             if (responseBartender.ok) {
-                return res.status(201).json(responseBartender);
+                return res.status(201).json(responseBartender.msg);
             } else {
                 return res.status(400).json(responseBartender);
             }
         } else {
             res.status(409).json({
                 ok: false,
-                msg: 'You cannot create this user'
+                msg: MessageErrorsEnum.UserNotPermitted
             })
         }
     } catch (err) {
@@ -104,17 +104,17 @@ const updateCustomerByIdUserController = async ({ body, user }: RequestExt, res:
             if( await getIsAdminByIdUserService(user?.id) || body.user === user?.id) {
                 const responseCustomer = await updateCustomerService( idCustomer!, body  );
                 if(responseCustomer.ok) {
-                    return res.status(200).json(responseCustomer);
+                    return res.status(200).json(responseCustomer.msg);
                 } else {
                     return res.status(404).json({
                         ok: false,
-                        msg: 'Customer not found'
+                        msg: MessageErrorsEnum.CustomerNotFound
                     })
                 }
             }  else {
                 res.status(409).json({
                     ok: false,
-                    msg: 'You cannot update this user'
+                    msg: MessageErrorsEnum.UserNotPermitted
                 })
             }
         } else {
@@ -128,7 +128,7 @@ const updateCustomerByIdUserController = async ({ body, user }: RequestExt, res:
             } else {
                 return res.status( 404).json({
                     ok: false,
-                    msg: 'Customer not found'
+                    msg: MessageErrorsEnum.CustomerNotFound
                 })
             }
         }
