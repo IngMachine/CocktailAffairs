@@ -3,7 +3,7 @@ import {Bartender} from "./bartender.interface";
 
 export interface Booking {
     user: User;
-    bartender?: Bartender[];
+    bartenders?: Bartender[];
     eventDate: Date;
     eventTime: Date;
     duration: number;

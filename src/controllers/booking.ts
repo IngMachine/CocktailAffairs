@@ -13,6 +13,7 @@ import {Booking} from "../interfaces/booking.interface";
 
 import {handleHttp} from "../utils/error.handle";
 import {getIsAdminByIdUserService} from "../services/user";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 
 const getBookingsController = async (req: Request, res: Response) => {
@@ -35,9 +36,9 @@ const createBookingController = async ({ body, user }: RequestExt, res: Response
                 const responseBooking = await createBookingService(booking);
                 return res.status(201).json(responseBooking);
             } else {
-                return res.status(400).json({
+                return res.status(401).json({
                     ok: false,
-                    msg: 'There is no user id to create a booking'
+                    msg: MessageErrorsEnum.NoAuthorizedForCreateBooking
                 })
             }
         } else {
@@ -46,7 +47,7 @@ const createBookingController = async ({ body, user }: RequestExt, res: Response
                 user: user?.id
             }
             const responseBooking = await createBookingService(booking);
-            return res.status(200).json(responseBooking);
+            return res.status(201).json(responseBooking);
         }
     } catch (err) {
         console.log(err)
@@ -72,7 +73,7 @@ const updateBookingController = async  ({ params, body, user }: RequestExt, res:
             } else {
                 return res.status(404).json({
                     ok: false,
-                    msg: 'Booking not found'
+                    msg: MessageErrorsEnum.BookingNotFound
                 })
             }
         } else {

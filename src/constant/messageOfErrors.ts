@@ -31,4 +31,6 @@ export enum MessageErrorsEnum {
     CocktailNotFound = 'Cocktail not found',
     NoAuthorizedForCreateBartender = 'No authorized for created a bartender',
     NoAuthorizedForUpdateBartender = 'No authorized for updated a bartender',
+    NoAuthorizedForCreateBooking = 'No authorized for created a booking for this user',
+    BookingNotFound = 'Booking not found'
 }

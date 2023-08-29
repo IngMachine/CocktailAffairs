@@ -12,7 +12,7 @@ const BookingSchema = new Schema<Booking>(
             ref: User,
             required: true
         },
-        bartender:[
+        bartenders:[
             {
                 type: Schema.Types.ObjectId,
                 ref: Bartender,
