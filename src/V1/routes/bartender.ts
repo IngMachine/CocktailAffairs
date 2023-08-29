@@ -418,7 +418,6 @@ router.put(
     updateBartenderByIdController
 );
 
-// TODO: Falta descripcion en postman y aqui
 /**
  * @openapi
  * /api/bartender/{id}:
@@ -437,7 +436,12 @@ router.put(
  *              - Bartender
  *              - Admin
  *         summary: delete a bartender from admin for id of bartender (role admin)
- *         description: Falta descripcion
+ *         description: This API endpoint allows administrators to delete bartender profiles from the CocktailAffairs
+ *                      application. Admin users have the authority to manage and remove bartender information
+ *                      as needed. This API contributes to maintaining an accurate and up-to-date record of active
+ *                      bartender profiles.<br/>
+ *                      Access Control:<br/>
+ *                      Only admin users can delete bartender profiles using this endpoint.
  *         responses:
  *             '200':
  *                 description: Bartender delete successfully
