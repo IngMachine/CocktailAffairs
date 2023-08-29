@@ -28,5 +28,7 @@ export enum MessageErrorsEnum {
     IsTypeNumeric = 'The type is numeric',
     PriceIsRequired = 'The price is required',
     IdImageCocktailRequired = 'The id of the image is required',
-    CocktailNotFound = 'Cocktail not found'
+    CocktailNotFound = 'Cocktail not found',
+    NoAuthorizedForCreateBartender = 'No authorized for created a bartender',
+    NoAuthorizedForUpdateBartender = 'No authorized for updated a bartender',
 }

@@ -1,6 +1,7 @@
 export enum FolderImage {
     Cocktails = 'cocktails',
-    Bartenders = 'bartenders'
+    Bartenders = 'bartenders',
+    NoImage = 'no_image'
 }
 
 
