@@ -3,6 +3,7 @@ import {Order} from "../interfaces/order.interface";
 
 import {getCustomerByIdUserService} from "./customer";
 import {getBookingByIdService, getUserByBookingService} from "./booking";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 
 const getOrdersService = async () => {
@@ -24,7 +25,7 @@ const getOrderByIdUserService = async( id: string) => {
         } else {
             return {
                 ok: false,
-                msg: 'Customer not found'
+                msg: MessageErrorsEnum.CustomerNotFound
             }
         }
     } catch (err) {
@@ -67,19 +68,19 @@ const createOrderService = async (order: Order, idUser: string ) => {
                 } else {
                     return {
                         ok: false,
-                        msg: 'Customer not found'
+                        msg: MessageErrorsEnum.CustomerNotFound
                     }
                 }
             } else {
                 return {
                     ok: false,
-                    msg: 'Booking already in orders'
+                    msg: MessageErrorsEnum.BookingAlreadyInOrders
                 }
             }
         } else {
             return {
                 ok: false,
-                msg: "The booking does not belong to this userId"
+                msg: MessageErrorsEnum.TheBookingDoesNotBelongToThisUserId
             }
         }
     } catch (err) {

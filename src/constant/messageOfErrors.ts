@@ -37,5 +37,10 @@ export enum MessageErrorsEnum {
     PhoneNumberIsRequired = 'The phone number is required',
     ShippingAddressIsRequired = 'The shipping address is required',
     CustomerCreatedWithThisUser = 'The customer has been created with that user',
-    CustomerNotFound = 'Customer not found'
+    CustomerNotFound = 'Customer not found',
+    OrderNotFound = 'Order not found',
+    BookingRequired = 'The booking is required',
+    TheKindOfDataNotIsValid = 'The kind of data not is valid',
+    BookingAlreadyInOrders = 'Booking already in orders',
+    TheBookingDoesNotBelongToThisUserId = "The booking does not belong to this userId"
 }

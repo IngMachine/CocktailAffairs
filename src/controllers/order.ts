@@ -14,6 +14,7 @@ import {getIsAdminByIdUserService} from "../services/user";
 
 import {handleHttp} from "../utils/error.handle";
 import {getCustomerByIdService} from "../services/customer";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 
 const getOrdersController = async (req: Request, res: Response) => {
@@ -29,18 +30,24 @@ const getOrdersByUserController = async ({ params, body, user }: RequestExt, res
     try {
         const { idUser } = params;
         if ( idUser === user?.id as string ) {
-            console.log('user')
             const orderResponse = await getOrderByIdUserService(idUser);
-            return res.status(200).json(orderResponse);
+            if( orderResponse.ok ){
+                return res.status(200).json(orderResponse.msg);
+            } else {
+                return res.status(404).json(orderResponse);
+            }
         } else {
             if(await getIsAdminByIdUserService( user?.id as string )) {
-                console.log('admin');
                 const orderResponse = await getOrderByIdUserService(idUser);
-                res.status(200).json(orderResponse);
+                if(orderResponse.ok) {
+                    res.status(200).json(orderResponse.msg);
+                } else {
+                    res.status(404).json(orderResponse);
+                }
             } else {
-                return res.status(401).json({
+                return res.status(409).json({
                     ok: false,
-                    msg: 'User not authorized'
+                    msg: MessageErrorsEnum.UserNotPermitted
                 })
             }
         }
@@ -59,7 +66,7 @@ const getOrderByIdController = async ({ params, body, user }: RequestExt, res: R
             } else {
                 return res.status(404).json({
                     ok: false,
-                    msg: 'Order not found'
+                    msg: MessageErrorsEnum.OrderNotFound
                 })
             }
         } else {
@@ -70,13 +77,13 @@ const getOrderByIdController = async ({ params, body, user }: RequestExt, res: R
                 } else {
                     return res.status(404).json({
                         ok: false,
-                        msg: 'Order not found'
+                        msg: MessageErrorsEnum.OrderNotFound
                     })
                 }
             } else {
                 return res.status(401).json({
                     ok:false,
-                    msg: 'No authorized for see order'
+                    msg: MessageErrorsEnum.UserNotPermitted
                 })
             }
         }
@@ -91,20 +98,20 @@ const createOrderController = async ({ body, params, user }: RequestExt, res: Re
             if( await getIsAdminByIdUserService(user?.id)){
                 const responseOrder = await createOrderService( body, body.user);
                 if(responseOrder.ok) {
-                    return res.status(201).json(responseOrder)
+                    return res.status(201).json(responseOrder.msg)
                 } else {
                     return res.status(404).json(responseOrder)
                 }
             } else {
-                return res.status(401).json({
+                return res.status(409).json({
                     ok: false,
-                    msg: 'No authorized for creating order'
+                    msg: MessageErrorsEnum.UserNotPermitted
                 })
             }
         } else {
             const responseOrder = await createOrderService( body, user?.id);
             if ( responseOrder.ok) {
-                res.status(201).json(responseOrder);
+                res.status(201).json(responseOrder.msg);
             } else {
                 res.status(400).json(responseOrder)
             }

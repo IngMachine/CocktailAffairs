@@ -4,8 +4,9 @@ import {bartenderExample, bartenderSchema} from "./bartender";
 import {bookingExample, bookingSchema} from "./booking";
 import {cocktailsExample, cocktailsSchema} from "./cocktails";
 import {customerExamples, customerSchema} from "./customer";
-import {imageCocktailsSchema, imagesCocktailsExamples} from "./image-cocktails";
 import {errorsGeneralExample, errorsGeneralSchema} from "./errorsGeneral";
+import {imageCocktailsSchema, imagesCocktailsExamples} from "./image-cocktails";
+import {orderExample, orderSchema} from "./order";
 import {rolesExamples, rolesSchemas} from "./roles";
 import {userExamples, userSchemas} from "./user";
 
@@ -39,6 +40,7 @@ const swaggerDefinition: OAS3Definition = {
             ...customerSchema,
             ...imageCocktailsSchema,
             ...errorsGeneralSchema,
+            ...orderSchema,
             ...rolesSchemas,
             ...userSchemas,
         },
@@ -49,6 +51,7 @@ const swaggerDefinition: OAS3Definition = {
             ...customerExamples,
             ...errorsGeneralExample,
             ...imagesCocktailsExamples,
+            ...orderExample,
             ...rolesExamples,
             ...userExamples,
         }
