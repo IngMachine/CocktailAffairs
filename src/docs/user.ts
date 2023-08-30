@@ -209,6 +209,13 @@ export const userSchemas: Components = {
                 format: 'mongo-id'
             }
         }
+    },
+    'User Request': {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+            description: { type: 'string' }
+        }
     }
 }
 
@@ -239,6 +246,13 @@ export const userExamples: Components = {
             'description': 'description add',
             'role': ['64cbd74fa0ebec5e5af4f5c9']
         }
+    },
+    'User Request': {
+      summary: 'User request',
+      value: {
+          "name": "Test update from account test",
+          "description": "update to user test!",
+      }
     },
     userAlreadyExist: {
         summary: 'User registered previously',
@@ -282,7 +296,6 @@ export const userExamples: Components = {
             }
         }
     },
-
     userWithDescription: {
         summary: 'User with description',
         value: {

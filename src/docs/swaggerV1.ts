@@ -8,6 +8,7 @@ import {errorsGeneralExample, errorsGeneralSchema} from "./errorsGeneral";
 import {imageCocktailsSchema, imagesCocktailsExamples} from "./image-cocktails";
 import {orderExample, orderSchema} from "./order";
 import {rolesExamples, rolesSchemas} from "./roles";
+import {statusExample, statusSchema} from "./status";
 import {userExamples, userSchemas} from "./user";
 
 const swaggerDefinition: OAS3Definition = {
@@ -42,6 +43,7 @@ const swaggerDefinition: OAS3Definition = {
             ...errorsGeneralSchema,
             ...orderSchema,
             ...rolesSchemas,
+            ...statusSchema,
             ...userSchemas,
         },
         examples: {
@@ -53,6 +55,7 @@ const swaggerDefinition: OAS3Definition = {
             ...imagesCocktailsExamples,
             ...orderExample,
             ...rolesExamples,
+            ...statusExample,
             ...userExamples,
         }
     }

@@ -9,6 +9,7 @@ import {
     updateStatusService,
     deleteStatusService
 } from "../services/status";
+import {MessageErrorsEnum} from "../constant/messageOfErrors";
 
 const getStatusController = async ({body}: Request, res: Response) => {
     try {
@@ -32,7 +33,15 @@ const updateStatusController = async ({ params, body }: Request, res: Response) 
     try {
         const { id } = params;
         const responseRole = await updateStatusService( id, body );
-        return res.status(200).json(responseRole);
+        if ( responseRole ) {
+            return res.status(200).json(responseRole);
+        } else {
+            // TODO probar que funcione el 404 con un id que no existe
+            return res.status(404).json({
+                ok: false,
+                msg: MessageErrorsEnum.StatusNotFound
+            })
+        }
     } catch (err) {
         handleHttp(res, 'ERROR_UPDATE_ROL', err);
     }
@@ -47,7 +56,7 @@ const deleteStatusController = async ({params}: Request, res: Response) => {
         } else {
             return res.status(404).json({
                 ok: false,
-                msg: "Status not found"
+                msg: MessageErrorsEnum.StatusNotFound
             })
         }
     } catch (err) {

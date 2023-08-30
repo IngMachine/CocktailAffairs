@@ -113,6 +113,14 @@ router.get(
  *         summary: Update user by id
  *         description: You can only update it yourself or an administrator,
  *                      you can not change the email, password or role when you are not an administrator.
+ *         requestBody:
+ *             content:
+ *                 application/json:
+ *                     schema:
+ *                         $ref: '#/components/schemas/User Request'
+ *                     examples:
+ *                         orderCreatedAdmin:
+ *                             $ref: '#/components/examples/User Request'
  *         responses:
  *             '200':
  *                 description: update information the user successfully

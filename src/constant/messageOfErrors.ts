@@ -5,6 +5,7 @@ export enum MessageErrorsEnum {
     NameIsRequired = 'The name is required.',
     NameIsTooShort = 'The name is too short',
     DescriptionIsTooShort = 'The description is too short',
+    DescriptionIsRequired = 'The description is required.',
     PasswordIsRequired = 'The password is required',
     EmailIsRequired = 'The email is required',
     EmailNotFormatValid = 'The email not valid format',
@@ -43,5 +44,6 @@ export enum MessageErrorsEnum {
     TheKindOfDataNotIsValid = 'The kind of data not is valid',
     BookingAlreadyInOrders = 'Booking already in orders',
     TheBookingDoesNotBelongToThisUserId = "The booking does not belong to this userId",
-    TheUserNotIsTheSame = 'The user not is the same'
+    TheUserNotIsTheSame = 'The user not is the same',
+    StatusNotFound = 'The status is not found'
 }
