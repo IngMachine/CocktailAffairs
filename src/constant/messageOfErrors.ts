@@ -42,5 +42,6 @@ export enum MessageErrorsEnum {
     BookingRequired = 'The booking is required',
     TheKindOfDataNotIsValid = 'The kind of data not is valid',
     BookingAlreadyInOrders = 'Booking already in orders',
-    TheBookingDoesNotBelongToThisUserId = "The booking does not belong to this userId"
+    TheBookingDoesNotBelongToThisUserId = "The booking does not belong to this userId",
+    TheUserNotIsTheSame = 'The user not is the same'
 }

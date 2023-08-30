@@ -208,20 +208,28 @@ router.get(
  *                      services, ensuring a seamless experience for event organizers and hosts.<br/>
  *                      Access Control:<br/>
  *                      Customers can create orders using this endpoint.
+ *         requestBody:
+ *             content:
+ *                 application/json:
+ *                     schema:
+ *                         oneOf:
+ *                             - $ref: '#/components/schemas/Order Created Customer'
+ *                             - $ref: '#/components/schemas/Order Created Admin'
+ *                     examples:
+ *                         orderCreatedCustomer:
+ *                             $ref: '#/components/examples/Order Created Customer'
+ *                         orderCreatedAdmin:
+ *                             $ref: '#/components/examples/Order Created Admin'
  *         responses:
  *             '201':
  *                 description: Order created successfully
  *                 content:
  *                     application/json:
  *                         schema:
- *                             oneOf:
- *                                 - $ref: '#/components/schemas/Order Created Customer'
- *                                 - $ref: '#/components/schemas/Order Created Admin'
+ *                              $ref: '#/components/schemas/Order'
  *                         examples:
  *                             orderCreatedCustomer:
- *                                 $ref: '#/components/examples/Order Created Customer'
- *                             orderCreatedAdmin:
- *                                 $ref: '#/components/examples/Order Created Admin'
+ *                                 $ref: '#/components/examples/Order View'
  *             '400':
  *                 description:
  *                 content:
@@ -281,13 +289,135 @@ router.post(
 router.use( checkRolPermit([RoleEnum.Admin]));
 
 /**
- * http://localhost:3002/order/ [GET]
+ * @openapi
+ * /api/order:
+ *     get:
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - Order
+ *              - Admin
+ *         summary: Get all orders the system
+ *         description: This API endpoint allows administrators to retrieve a list of all orders from the
+ *                      CocktailAffairs application. Admin users have the authority to access and review
+ *                      orders across the system. This API provides an overview of all orders, facilitating
+ *                      effective management and coordination.<br/>
+ *                      Access Control:<br/>
+ *                      Only admin users can access all orders using this endpoint.
+ *         responses:
+ *             '200':
+ *                 description: Get all orders the system successfully
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/List Orders'
+ *                         examples:
+ *                             AllOrders:
+ *                                 $ref: '#/components/examples/List Orders'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Error Response'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
+ *             '409':
+ *                 description: Not authorized for created booking
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Error Response'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
  */
 router.get(
     '/',
     getOrdersController
 );
 
+/**
+ * @openapi
+ * /api/order/{id}:
+ *     put:
+ *         parameters:
+ *         - name: id
+ *           in: path
+ *           description:  The id of the order to update
+ *           required: true
+ *           type: string
+ *           format: mongo-id
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - Order
+ *              - Admin
+ *         summary: Update the order for id
+ *         description: This API endpoint allows users, both customers and admin users, to retrieve detailed
+ *                      information about a specific order based on its unique ID. Users can access and review
+ *                      order details, event information, bartender assignments, and payment status.
+ *                      This API provides transparency and accessibility to ensure effective communication
+ *                      and coordination between customers, bartenders, and event organizers.<br/>
+ *                      Access Control:<br/>
+ *                      Customers can access their own order information.<br/>
+ *                      Admin users can access any order.
+ *         requestBody:
+ *             content:
+ *                 application/json:
+ *                     schema:
+ *                         $ref: '#/components/schemas/Order Created Admin'
+ *                     examples:
+ *                         orderCreatedAdmin:
+ *                             $ref: '#/components/examples/Order Created Admin'
+ *         responses:
+ *             '200':
+ *                 description: View of order for id successfully
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Order'
+ *                         examples:
+ *                             orderView:
+ *                                 $ref: '#/components/examples/Order View'
+ *             '400':
+ *                 description:
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Errors Field'
+ *                         examples:
+ *                             errorInIdParam:
+ *                                 $ref: '#/components/examples/errorInIdParam'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Error Response'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
+ *             '404':
+ *                 description: Errors occurred view order for id user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Errors Field'
+ *                         examples:
+ *                             errorImageNotExistsWithThatId:
+ *                                 $ref: '#/components/examples/Errors Order Not Found'
+ *             '409':
+ *                 description: Not authorized for created booking
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Error Response'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
+ */
 router.put(
     '/:id',
     [
@@ -302,6 +432,77 @@ router.put(
     updateOrderByIdController
 )
 
+/**
+ * @openapi
+ * /api/order/{id}:
+ *     delete:
+ *         parameters:
+ *         - name: id
+ *           in: path
+ *           description:  The id of the order to delete
+ *           required: true
+ *           type: string
+ *           format: mongo-id
+ *         security:
+ *         - bearerAuth: []
+ *         tags:
+ *           - Order
+ *              - Admin
+ *         summary: Delete the order for id
+ *         description: This API endpoint allows users, both customers and admin users, to delete an existing order
+ *                      based on its unique ID. Users can remove orders that are no longer needed or relevant.
+ *                      This API empowers users to manage their order history and maintain an organized record of
+ *                      event coordination.<br/>
+ *                      Access Control:<br/>
+ *                      Customers can delete their own orders.<br/>
+ *                      Admin users can delete any order.
+ *         responses:
+ *             '200':
+ *                 description: Delete the order for id successfully
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Order'
+ *                         examples:
+ *                             orderView:
+ *                                 $ref: '#/components/examples/Order View'
+ *             '400':
+ *                 description:
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Errors Field'
+ *                         examples:
+ *                             errorInIdParam:
+ *                                 $ref: '#/components/examples/errorInIdParam'
+ *             '403':
+ *                 description: Session not valid
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Error Response'
+ *                         examples:
+ *                             userNoSession:
+ *                                 $ref: '#/components/examples/userNoSession'
+ *             '404':
+ *                 description: Errors occurred delete order for id user
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Errors Field'
+ *                         examples:
+ *                             errorImageNotExistsWithThatId:
+ *                                 $ref: '#/components/examples/Errors Order Not Found'
+ *             '409':
+ *                 description: Not authorized for created booking
+ *                 content:
+ *                     application/json:
+ *                         schema:
+ *                             $ref: '#/components/schemas/Error Response'
+ *                         examples:
+ *                             userNotAuthorized:
+ *                                 $ref: '#/components/examples/errorAuthorizationResponse'
+ */
 router.delete(
     '/:id',
     [

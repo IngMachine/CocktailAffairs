@@ -30,13 +30,19 @@ export const orderSchema: Components = {
         }
     },
     'Order Created Customer': {
-        booking: { type: 'string', format: 'id-mongo' },
-        totalAmount: { type: 'number' }
+        type: 'object',
+        properties: {
+            booking: { type: 'string', format: 'id-mongo' },
+            totalAmount: { type: 'number' }
+        }
     },
     'Order Created Admin': {
-        user: { type: 'string', format: 'id-mongo' },
-        booking: { type: 'string', format: 'id-mongo' },
-        totalAmount: { type: 'number' }
+        type: 'object',
+        properties: {
+            user: { type: 'string', format: 'id-mongo' },
+            booking: { type: 'string', format: 'id-mongo' },
+            totalAmount: { type: 'number' }
+        }
     }
 }
 

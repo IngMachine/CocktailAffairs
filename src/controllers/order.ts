@@ -100,7 +100,7 @@ const createOrderController = async ({ body, params, user }: RequestExt, res: Re
                 if(responseOrder.ok) {
                     return res.status(201).json(responseOrder.msg)
                 } else {
-                    return res.status(404).json(responseOrder)
+                    return res.status(400).json(responseOrder)
                 }
             } else {
                 return res.status(409).json({
@@ -126,7 +126,7 @@ const updateOrderByIdController = async ({params, body}: Request, res: Response)
         const {id} = params;
         const orderResponse = await updateOrderService(id, body);
         if (orderResponse.ok) {
-            return res.status(200).json(orderResponse);
+            return res.status(200).json(orderResponse.msg);
         } else {
             return res.status(400).json(orderResponse);
         }

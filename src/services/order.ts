@@ -118,7 +118,7 @@ const updateOrderService = async( id: string, order: Order) => {
                 } else {
                     return {
                         ok: false,
-                        msg: 'The user not is the same'
+                        msg: MessageErrorsEnum.TheUserNotIsTheSame
                     }
                 }
             } else {
@@ -141,7 +141,7 @@ const updateOrderService = async( id: string, order: Order) => {
         } else {
             return {
                 ok: false,
-                msg: 'The order not found'
+                msg: MessageErrorsEnum.OrderNotFound
             }
         }
     } catch (err) {
